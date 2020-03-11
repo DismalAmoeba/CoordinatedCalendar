@@ -1,6 +1,7 @@
 package calendarproject;
 import javax.swing.JFrame;
 import java.awt.*;
+import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -11,26 +12,25 @@ public final class CalendarProject extends JFrame {
     private static final int HEIGHT = 500;
     private static final int WIDTH = 800;
 
-protected Component makeTextPanel(String text) { //delete before midterm presentation
-    JPanel panel = new JPanel(false);            //code copied for prototype purposes
-    JLabel filler = new JLabel(text);
-    filler.setHorizontalAlignment(JLabel.CENTER);
-    panel.setLayout(new GridLayout(1, 1));
-    panel.add(filler);
-    return panel;
-}
-
-protected Component monthlyCalendarTab(){
-    JPanel panel = new JPanel();
-    panel.add(MonthlyCalendar.run());
-    return panel;
-}
+//protected Component monthlyCalendarTab(){
+//    JPanel panel = new JPanel();
+//    panel.add(MonthlyCalendar.run());
+//    return panel;
+//}
 
 protected Component weeklyCalendarTab(){
     JPanel panel = new JPanel();
     JLabel test = new JLabel("Test");
     panel.add(test);
     return panel;
+}
+
+protected Component test(){
+    JInternalFrame test = new JInternalFrame("yes",false,false,false,false);
+    test.add(MonthlyCalendar.run());
+    test.setSize(500,500);
+    test.setVisible(true);
+    return test;
 }
 
 public CalendarProject()
@@ -48,7 +48,8 @@ public CalendarProject()
     Component panel1 = weeklyCalendarTab();
     tabbedPane.addTab("Weekly Calandar",panel1);
     
-    Component panel2 = monthlyCalendarTab();
+    //Component panel2 = monthlyCalendarTab();
+    Component panel2 = test();
     tabbedPane.addTab("Monthly Calandar",panel2);
     
     Cont.add(tabbedPane);

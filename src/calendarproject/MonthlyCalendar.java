@@ -26,7 +26,6 @@ public class MonthlyCalendar extends JFrame {
     static JPanel pnlCalendar;
     static int realYear, realMonth, realDay, currentYear, currentMonth;
     /**
-     * @param args the command line arguments
      * @return 
      */
     
@@ -40,7 +39,7 @@ public class MonthlyCalendar extends JFrame {
         frmMain.setSize(330, 375); //Set size to 400x400 pixels
         pane = frmMain.getContentPane(); //Get content pane
         pane.setLayout(null); //Apply null layout
-        frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close when X is clicked
+        //frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close when X is clicked
         
         //Create controls
         lblMonth = new JLabel ("January");
@@ -82,7 +81,7 @@ public class MonthlyCalendar extends JFrame {
         
         //Make frame visible
         frmMain.setResizable(false);
-        frmMain.setVisible(true);
+        frmMain.setVisible(false);
         
         //Get real month/year
         GregorianCalendar cal = new GregorianCalendar(); //Create calendar
