@@ -124,6 +124,13 @@ public class MonthlyCalendar extends JFrame {
         return pnlCalendar;
     }
     
+  static public void getDate(MouseEvent event){
+      if (event.getClickCount() == 2)
+      {
+          System.out.println("yeet");
+      }
+  }
+    
   static public void refreshCalendar(int month, int year){
         //Variables
         String[] months =  {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
@@ -218,6 +225,6 @@ public class MonthlyCalendar extends JFrame {
             }
         }
     
-    }
-
+    }    
+    
 }

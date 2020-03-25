@@ -13,19 +13,21 @@ public final class CalendarProject extends JFrame {
     private static final int WIDTH = 800;
 
 //protected Component monthlyCalendarTab(){
+//    MonthlyCalendar.run();
 //    JPanel panel = new JPanel();
-//    panel.add(MonthlyCalendar.run());
+//    panel.add(MonthlyCalendar.pane);
 //    return panel;
 //}
 
-protected Component weeklyCalendarTab(){
-    JPanel panel = new JPanel();
-    JLabel test = new JLabel("Test");
-    panel.add(test);
-    return panel;
-}
+//protected Component weeklyCalendarTab(){
+//    JPanel panel = new JPanel();
+//    JLabel test = new JLabel("Test");
+//    panel.add(test);
+//    return panel;
+//}
 
 protected Component test(){
+    MonthlyCalendar.run();
     JInternalFrame test = new JInternalFrame("yes",false,false,false,false);
     test.add(MonthlyCalendar.run());
     test.setSize(500,500);
@@ -41,22 +43,22 @@ public CalendarProject()
     setVisible(true);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     
-    Container Cont = getContentPane();
+    Container cont = getContentPane();
     
-    JTabbedPane tabbedPane = new JTabbedPane();
+    //JTabbedPane tabbedPane = new JTabbedPane();
     
-    Component panel1 = weeklyCalendarTab();
-    tabbedPane.addTab("Weekly Calandar",panel1);
+    //Component panel1 = weeklyCalendarTab();
+    //tabbedPane.addTab("Weekly Calandar",panel1);
     
     //Component panel2 = monthlyCalendarTab();
     Component panel2 = test();
-    tabbedPane.addTab("Monthly Calandar",panel2);
+    //tabbedPane.addTab("Monthly Calandar",panel2);
     
-    Cont.add(tabbedPane);
+    //Cont.add(tabbedPane);
+    cont.add(panel2);
 }
 
     public static void main(String[] args){
         CalendarProject yeet = new CalendarProject();
         
-    }
-}
+    }}
