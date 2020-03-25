@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package calendarproject;
 
 /**
@@ -123,13 +118,6 @@ public class MonthlyCalendar extends JFrame {
         
         return pnlCalendar;
     }
-    
-  static public void getDate(MouseEvent event){
-      if (event.getClickCount() == 2)
-      {
-          System.out.println("yeet");
-      }
-  }
     
   static public void refreshCalendar(int month, int year){
         //Variables
