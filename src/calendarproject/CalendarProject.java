@@ -1,6 +1,7 @@
 package calendarproject;
 import javax.swing.JFrame;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Container;
 import javax.swing.JInternalFrame;
 
 public final class CalendarProject extends JFrame {
@@ -9,13 +10,13 @@ public final class CalendarProject extends JFrame {
     private static final int HEIGHT = 500;
     private static final int WIDTH = 800;
 
-protected Component test(){
+protected Component calendar(){ //This component creates an internal frame for MonthlyCalendar.java
     MonthlyCalendar.run();
-    JInternalFrame test = new JInternalFrame("yes",false,false,false,false);
-    test.add(MonthlyCalendar.run());
-    test.setSize(500,500);
-    test.setVisible(true);
-    return test;
+    JInternalFrame frame = new JInternalFrame("yes",false,false,false,false);
+    frame.add(MonthlyCalendar.run());
+    frame.setSize(HEIGHT,WIDTH);
+    frame.setVisible(true);
+    return frame;
 }
 
 public CalendarProject()
@@ -27,12 +28,12 @@ public CalendarProject()
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     
     Container cont = getContentPane();
-    Component panel2 = test();
+    Component panel2 = calendar();
     cont.add(panel2);
 }
 
     public static void main(String[] args){
         //Actually run the program
-        CalendarProject yeet = new CalendarProject();
-        
-    }}
+        CalendarProject yeet = new CalendarProject(); 
+    }
+}

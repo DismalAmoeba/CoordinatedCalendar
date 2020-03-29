@@ -40,8 +40,8 @@ public class MonthlyCalendar extends JFrame {
         lblMonth = new JLabel ("January");
         lblYear = new JLabel ("Change year:");
         cmbYear = new JComboBox();
-        btnPrev = new JButton ("&lt;&lt;");
-        btnNext = new JButton ("&gt;&gt;");
+        btnPrev = new JButton ("<<");
+        btnNext = new JButton (">>");
         mtblCalendar = new DefaultTableModel(){@Override
         public boolean isCellEditable(int rowIndex, int mColIndex){return false;}};
         tblCalendar = new JTable(mtblCalendar);
@@ -55,6 +55,7 @@ public class MonthlyCalendar extends JFrame {
         btnPrev.addActionListener(new btnPrev_Action());
         btnNext.addActionListener(new btnNext_Action());
         cmbYear.addActionListener(new cmbYear_Action());
+        tblCalendar.addMouseListener(new tblCalendar_Action());
         
         //Add controls to pane
         pane.add(pnlCalendar);
@@ -76,7 +77,7 @@ public class MonthlyCalendar extends JFrame {
         
         //Make frame visible
         frmMain.setResizable(false);
-        frmMain.setVisible(false);
+        frmMain.setVisible(false); //double check to make sure this is set to false
         
         //Get real month/year
         GregorianCalendar cal = new GregorianCalendar(); //Create calendar
@@ -154,6 +155,7 @@ public class MonthlyCalendar extends JFrame {
         
         //Apply renderers
         tblCalendar.setDefaultRenderer(tblCalendar.getColumnClass(0), new tblCalendarRenderer());
+        
     }
     
     static class tblCalendarRenderer extends DefaultTableCellRenderer{
@@ -214,5 +216,27 @@ public class MonthlyCalendar extends JFrame {
         }
     
     }    
+
+    static class tblCalendar_Action implements MouseListener{
+        
+        //There has to be a better way to do this
+        @Override
+        public void mousePressed(MouseEvent e){}
+        @Override
+        public void mouseEntered(MouseEvent e){}
+        @Override
+        public void mouseExited(MouseEvent e){}
+        @Override
+        public void mouseReleased(MouseEvent e){}
+        @Override
+        
+        public void mouseClicked (MouseEvent e){
+            System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
+        }
+        
+    }
     
+//    public static void main(String[] args){
+//    MonthlyCalendar.run();
+//    }
 }
