@@ -1,9 +1,8 @@
 package calendarproject;
 import javax.swing.JFrame;
-import java.awt.*;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import java.awt.Component;
+import java.awt.Container;
+import javax.swing.JInternalFrame;
 
 public final class CalendarProject extends JFrame {
     
@@ -11,26 +10,13 @@ public final class CalendarProject extends JFrame {
     private static final int HEIGHT = 500;
     private static final int WIDTH = 800;
 
-protected Component makeTextPanel(String text) { //delete before midterm presentation
-    JPanel panel = new JPanel(false);            //code copied for prototype purposes
-    JLabel filler = new JLabel(text);
-    filler.setHorizontalAlignment(JLabel.CENTER);
-    panel.setLayout(new GridLayout(1, 1));
-    panel.add(filler);
-    return panel;
-}
-
-protected Component monthlyCalendarTab(){
-    JPanel panel = new JPanel();
-    panel.add(MonthlyCalendar.run());
-    return panel;
-}
-
-protected Component weeklyCalendarTab(){
-    JPanel panel = new JPanel();
-    JLabel test = new JLabel("Test");
-    panel.add(test);
-    return panel;
+protected Component calendar(){ //This component creates an internal frame for MonthlyCalendar.java
+    MonthlyCalendar.run();
+    JInternalFrame frame = new JInternalFrame("yes",false,false,false,false);
+    frame.add(MonthlyCalendar.run());
+    frame.setSize(HEIGHT,WIDTH);
+    frame.setVisible(true);
+    return frame;
 }
 
 public CalendarProject()
@@ -41,21 +27,13 @@ public CalendarProject()
     setVisible(true);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     
-    Container Cont = getContentPane();
-    
-    JTabbedPane tabbedPane = new JTabbedPane();
-    
-    Component panel1 = weeklyCalendarTab();
-    tabbedPane.addTab("Weekly Calandar",panel1);
-    
-    Component panel2 = monthlyCalendarTab();
-    tabbedPane.addTab("Monthly Calandar",panel2);
-    
-    Cont.add(tabbedPane);
+    Container cont = getContentPane();
+    Component panel2 = calendar();
+    cont.add(panel2);
 }
 
     public static void main(String[] args){
-        CalendarProject yeet = new CalendarProject();
-        
+        //Actually run the program
+        CalendarProject yeet = new CalendarProject(); 
     }
 }
