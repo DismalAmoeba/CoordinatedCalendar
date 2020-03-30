@@ -9,6 +9,7 @@ import java.util.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import GetData.GetData;
 
 /**
  *
@@ -17,6 +18,7 @@ import java.security.SecureRandom;
 public class AccountProtect {
     //Datbase should store --> username, salt value, and generated hash
     public static void main(String[] args) throws Exception  {
+       
         // Prompt for credentials
         Scanner input = new Scanner(System.in); 
         System.out.println("Please create a username");
@@ -28,6 +30,12 @@ public class AccountProtect {
         byte[] salt = createSalt();
        System.out.println("SHA-256 Hash: " + generateHash(data, algorithm, salt)); 
         
+       //ConnectToSQLServer
+       GetData result = new GetData();
+       try {
+           System.out.println(result.getDataFromDataBase());
+       } catch (Exception e) {
+    }
     }
 
     private static String generateHash(String data, String algorithm, byte[] salt) throws NoSuchAlgorithmException  {
