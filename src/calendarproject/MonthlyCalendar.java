@@ -231,12 +231,11 @@ public class MonthlyCalendar extends JFrame {
         @Override
         
         public void mouseClicked (MouseEvent e){
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAA");
+            int row = tblCalendar.rowAtPoint(e.getPoint());
+            int col = tblCalendar.columnAtPoint(e.getPoint());
+            if (row >= 0 && col >= 0) {
+                System.out.println(row + " " + col);
+            }
         }
-        
     }
-    
-//    public static void main(String[] args){
-//    MonthlyCalendar.run();
-//    }
 }
