@@ -37,11 +37,11 @@ public class GetData {
         try {
             conn = MyConnection.getConnection();
             if(conn != null) {
-                String sql ="Select *attribute here* from *DB table name here*";
+                String sql ="Select USER_NUM from USER";
                 stm = conn.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while(rs.next()) {
-                    result = result + "," + rs.getString("*attribute here*");
+                    result = result + "," + rs.getString("USER_NUM");
                 }
             }
         } catch(Exception e) {
