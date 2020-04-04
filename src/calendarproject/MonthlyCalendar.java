@@ -214,7 +214,6 @@ public class MonthlyCalendar extends JFrame {
                 refreshCalendar(currentMonth, currentYear);
             }
         }
-    
     }     
 
     static class tblCalendar_Action implements MouseListener{

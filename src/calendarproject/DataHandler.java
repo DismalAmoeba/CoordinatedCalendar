@@ -1,7 +1,18 @@
 package calendarproject;
 
+import java.util.LinkedList;
+
 public class DataHandler {
-    //I plan to use this class to save/load/export/whatever all event data
-    //There's nothing here because I stopped to upload everything to git
-    //I guarentee that there's something here by the time anyone reads this.
+    public static LinkedList eventList = new LinkedList();
+    
+    public static void addToList(int type, int userID, int year, int month, int day, String eventName, int startTime, int endTime){
+        //the first constructor: type is to differenciate if an event happens once or on a certain interval
+        //0 for one time
+        //1 for weekly
+        //2 for monthly
+        //3 for yearly
+        //and most likely 4 will be a custom option
+        
+        eventList.add(userID + "," + year + "," + month + "," + day + "," + eventName + "," + startTime + "," + endTime);
+    }
 }

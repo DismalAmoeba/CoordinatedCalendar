@@ -4,12 +4,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class AddEvent extends JFrame{
@@ -18,9 +16,9 @@ int HEIGHT = 300;
 int WIDTH = 200;
 
 //create ALL of the things
-static JFrame addFrame =  new JFrame("Add Event");
+JFrame addFrame =  new JFrame("Add Event");
 JPanel addPanel = new JPanel();
-JTextArea dateLabel;
+JLabel dateLabel;
 JLabel eventNameLabel = new JLabel("Event Name:");
 JTextField eventNameField = new JTextField(18);
 JLabel startTimeLabel = new JLabel("Start Time:");
@@ -30,15 +28,15 @@ JTextField endTimeField = new JTextField(5);
 JButton addEventButton = new JButton("Add Event");
 
 //these default values should never be used
-int year = -1;
-int month = -1;
-Object day = null;
+public int year = -1;
+public int month = -1;
+public Object day = null;
 
     public JFrame addOneTimeEvent(int day, int month, int year){
         addEventButton.addActionListener(new addEventButton_Action());
         addPanel.setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
-        dateLabel = new JTextArea("Selected date:\r\n" + day + "/" + month + "/" + year);
+        dateLabel = new JLabel("Selected date:\r\n" + day + "/" + month + "/" + year);
         
         grid.fill = GridBagConstraints.HORIZONTAL;
         grid.gridx = 0;
@@ -81,15 +79,18 @@ Object day = null;
         addFrame.add(addPanel);
         addFrame.setSize(HEIGHT,WIDTH);
         addFrame.setVisible(true);
+        addFrame.pack();
         return addFrame;
+        
     }
-    static class addEventButton_Action implements ActionListener{      
+    class addEventButton_Action implements ActionListener{  
+        
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            DataHandler.addToList(0, 1, year, month,(int) day, eventNameLabel.getText(), Integer.parseInt(startTimeField.getText()),Integer.parseInt(endTimeField.getText()));
             
-            //obligatory todo: create DataHandler, and use it to save events
-            
-            addFrame.dispatchEvent(new WindowEvent(addFrame, WindowEvent.WINDOW_CLOSING));
+            addFrame.dispose();
         }
     }
 }
