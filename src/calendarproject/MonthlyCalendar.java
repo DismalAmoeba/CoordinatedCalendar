@@ -214,8 +214,7 @@ public class MonthlyCalendar extends JFrame {
                 refreshCalendar(currentMonth, currentYear);
             }
         }
-    
-    }    
+    }     
 
     static class tblCalendar_Action implements MouseListener{
         
@@ -228,13 +227,17 @@ public class MonthlyCalendar extends JFrame {
         public void mouseExited(MouseEvent e){}
         @Override
         public void mouseReleased(MouseEvent e){}
-        @Override
         
+        Object tblData = null;
+        
+        @Override
         public void mouseClicked (MouseEvent e){
             int row = tblCalendar.rowAtPoint(e.getPoint());
             int col = tblCalendar.columnAtPoint(e.getPoint());
-            if (row >= 0 && col >= 0) {
-                System.out.println(row + " " + col);
+            tblData = tblCalendar.getValueAt(row,col);
+            if (row >= 0 && col >= 0 && tblData != null) {
+                AddEvent ae = new AddEvent();
+                ae.addOneTimeEvent((int) tblData,currentMonth,currentYear);
             }
         }
     }
