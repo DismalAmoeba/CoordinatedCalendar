@@ -30,7 +30,7 @@ JButton addEventButton = new JButton("Add Event");
 //these default values should never be used
 public int year = -1;
 public int month = -1;
-public Object day = null;
+public int day = (int) -1;
 
     public JFrame addOneTimeEvent(int day, int month, int year){
         addEventButton.addActionListener(new addEventButton_Action());
@@ -88,7 +88,7 @@ public Object day = null;
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            DataHandler.addToList(0, 1, year, month,(int) day, eventNameLabel.getText(), Integer.parseInt(startTimeField.getText()),Integer.parseInt(endTimeField.getText()));
+            DataHandler.addToList(0, 1, year, month, day, eventNameLabel.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
             
             addFrame.dispose();
         }
