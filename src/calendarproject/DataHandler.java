@@ -13,6 +13,6 @@ public class DataHandler {
         //3 for yearly
         //and most likely 4 will be a custom option
         
-        eventList.add(userID + "," + year + "," + month + "," + day + "," + eventName + "," + startTime + "," + endTime);
+        eventList.add(type + "," + userID + "," + year + "," + month + "," + day + "," + eventName + "," + startTime + "," + endTime);
     }
 }
