@@ -29,7 +29,7 @@ public class DataHandler {
         System.out.println(Arrays.toString(eventList.toArray()));
         //for testing purposes
     }
-    
+    //puts events into txt file
     public static void write() throws IOException{
             try
             {
@@ -47,6 +47,7 @@ public class DataHandler {
             }
                 
         }
+    //Reads from file and puts it into the ArrayList
     public static void read() throws IOException{
             Scanner reader = null;
             try
