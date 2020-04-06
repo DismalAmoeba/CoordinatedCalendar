@@ -11,7 +11,11 @@ import static accountprotect.AccountProtect.generateHash;
 import com.sun.istack.internal.logging.Logger;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
@@ -169,9 +173,8 @@ public class LoginForm extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                         .addComponent(jButton_LOGIN, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField1)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))
+                    .addComponent(jTextField1)
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -225,54 +228,37 @@ public class LoginForm extends javax.swing.JFrame {
     
     private void jButton_LOGINActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LOGINActionPerformed
         AccountProtect myHash = new AccountProtect();
+        
         PreparedStatement ps;
         ResultSet rs;
+        
         String uname = jTextField1.getText();
         String enteredpass = String.valueOf(jPasswordField1.getPassword());
         String algorithm = "SHA-256";
        
         
         String query = "SELECT * FROM `User_tbl` WHERE `user_uname` =?";
-        String hash ="";
         try {
             ps = MyConnection.getConnection().prepareStatement(query);
             
             ps.setString(1, uname);
             rs = ps.executeQuery();
+            if (rs.next()) 
+            {
+                 String userhash = rs.getString("user_hash");
+            byte[] salt = rs.getBytes("user_salt");
+            String computedhash = myHash.generateHash(enteredpass, algorithm, salt);
             
-            //byte[] salt = rs.getBytes("user_salt");
-            File saltblob = new File(uname);
-            byte[] saltbuffer = new byte[1024];
-            try (FileOutputStream fos = new FileOutputStream(saltblob)) {
-                
-                
-                // Get the binary stream of our BLOB salt data
-                    InputStream is = rs.getBinaryStream("user_salt");
-                    while (is.read(saltbuffer) > 0) {
-                        fos.write(saltbuffer);
-                    }
-            } 
-            File hashblob = new File(uname);
-            byte[] hashbuffer = new byte[1024];
-            try (FileOutputStream fos = new FileOutputStream(hashblob)) {
-                
-                
-                // Get the binary stream of our BLOB salt data
-                    InputStream is = rs.getBinaryStream("user_hash");
-                    while (is.read(hashbuffer) > 0) {
-                        fos.write(hashbuffer);
-                    }
-            } 
-            String hashbufftostring = hashbuffer.toString();
-hash = myHash.generateHash(enteredpass, algorithm, saltbuffer);
-             if (rs.next() && hash == hashbufftostring) 
-           {
-               JOptionPane.showMessageDialog(null, "Logging in...");
-           } else
-           {
-               JOptionPane.showMessageDialog(null, "Not found");
-           }
-            
+                if (userhash.equalsIgnoreCase(computedhash) ) 
+                {
+                    //LAUNCH APP HERE
+                     JOptionPane.showMessageDialog(null, "Logging in....");
+                } else
+                {
+                    JOptionPane.showMessageDialog(null, "Not found");
+                }
+            }
+            ps.close();
         } catch (SQLException ex) {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {

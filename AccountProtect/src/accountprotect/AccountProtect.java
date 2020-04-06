@@ -26,7 +26,8 @@ public class AccountProtect {
     //Need to launch LoginForm on start!
     public static void main(String[] args) throws Exception  {
 
-    
+    LoginForm form = new LoginForm();
+    form.show(true);
         
 //        // Prompt for credentials
 //        Scanner input = new Scanner(System.in); 
@@ -43,9 +44,9 @@ public class AccountProtect {
     
 
 
-    //public static String generateHash(String data, String algorithm, byte[] salt) throws NoSuchAlgorithmException  {
+   
          public static String generateHash(String data, String algorithm, byte[] salt) throws NoSuchAlgorithmException  {
-       //MessageDigest of value assigned to String algorithm --> Java security class
+       //MessageDigest of value assigned to String 'algorithm' --> Java security class
        MessageDigest digest = MessageDigest.getInstance(algorithm);
        digest.reset();
        //update digest with salt in order to eliminate identical hashes
@@ -55,36 +56,10 @@ public class AccountProtect {
             
     }
          
-         public String getSecureHashForCompare(String passwordToHash, byte[] salt) throws Exception
-         {
-             String generatedPass = passwordToHash;
-             
-             try 
-     {
-            // Create MessageDigest instance for MD5
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            //Add password bytes to digest
-            md.update(salt);
-            //Get the hash's bytes 
-            byte[] bytes = md.digest(passwordToHash.getBytes());
-            //This bytes[] has bytes in decimal format;
-            //Convert it to hexadecimal format
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            //Get complete hashed password in hex format
-            passwordToHash = sb.toString();
-        } 
-        catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return passwordToHash;
-             
-         }
+
           public final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
+          //Binary to String function
           public static String bytesToStringHex(byte[] bytes) {
               char[] hexChars = new char[bytes.length *2];
               for (int j = 0; j < bytes.length; j++) {

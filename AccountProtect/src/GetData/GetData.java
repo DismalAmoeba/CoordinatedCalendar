@@ -32,6 +32,7 @@ public class GetData {
         }
     }
     
+    //Test function to check connection with DB
     public String getDataFromDataBase() throws Exception {
         String result = "";
         
@@ -43,7 +44,6 @@ public class GetData {
                 rs = stm.executeQuery();
                 while(rs.next()) {
                     result = result + rs.getString("user_salt");
-// result = result + "," + rs.getString("User_Name");
                 }
             }
         } catch(Exception e) {
@@ -51,7 +51,7 @@ public class GetData {
         }finally {
             CloseConnection();
         }
-       // byte[] salt = result.getBytes();
+      
         
         return result;
     }

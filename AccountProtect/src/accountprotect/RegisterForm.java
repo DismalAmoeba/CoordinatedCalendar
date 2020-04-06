@@ -293,8 +293,10 @@ public class RegisterForm extends javax.swing.JFrame {
             //Password hashing
             String algorithm = "SHA-256";
             byte[] salt = acct.createSalt();
+            String saltstring = acct.bytesToStringHex(salt);
             try {
-            hash = acct.generateHash(pass, algorithm, salt);     
+            hash = acct.generateHash(pass, algorithm, salt); 
+            
             
                  
             } catch (NoSuchAlgorithmException ex) {
