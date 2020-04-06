@@ -10,15 +10,24 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import GetData.GetData;
+import java.awt.Canvas;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.net.*;
+import java.sql.*;
+import javax.swing.JFrame;
 
 /**
  *
  * @author towns
  */
 public class AccountProtect {
-    //Datbase should store --> username, salt value, and generated hash
+    //Need to launch LoginForm on start!
     public static void main(String[] args) throws Exception  {
-       
+
+    
+        
 //        // Prompt for credentials
 //        Scanner input = new Scanner(System.in); 
 //        System.out.println("Please create a username");
@@ -28,20 +37,16 @@ public class AccountProtect {
 //        //Hash code output size (32 bytes) using hash algorithm SHA-256
 //        String algorithm = "SHA-256";
 //        byte[] salt = createSalt();
-//       System.out.println("SHA-256 Hash: " + generateHash(data, algorithm, salt)); 
-        
-       //ConnectToSQLServer
-       GetData result = new GetData();
-       try {
-           System.out.println(result.getDataFromDataBase());
-       } catch (Exception e) {
-    }
-    }
+//        System.out.println("SHA-256 Hash: " + generateHash(data, algorithm, salt)); 
 
-    private static String generateHash(String data, String algorithm, byte[] salt) throws NoSuchAlgorithmException  {
+  }
+    
+
+
+    //public static String generateHash(String data, String algorithm, byte[] salt) throws NoSuchAlgorithmException  {
+         public static String generateHash(String data, String algorithm, byte[] salt) throws NoSuchAlgorithmException  {
        //MessageDigest of value assigned to String algorithm --> Java security class
        MessageDigest digest = MessageDigest.getInstance(algorithm);
-       //SALT
        digest.reset();
        //update digest with salt in order to eliminate identical hashes
        digest.update(salt);
@@ -49,7 +54,36 @@ public class AccountProtect {
       return bytesToStringHex(hash);
             
     }
-          private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+         
+         public String getSecureHashForCompare(String passwordToHash, byte[] salt) throws Exception
+         {
+             String generatedPass = passwordToHash;
+             
+             try 
+     {
+            // Create MessageDigest instance for MD5
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            //Add password bytes to digest
+            md.update(salt);
+            //Get the hash's bytes 
+            byte[] bytes = md.digest(passwordToHash.getBytes());
+            //This bytes[] has bytes in decimal format;
+            //Convert it to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            //Get complete hashed password in hex format
+            passwordToHash = sb.toString();
+        } 
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return passwordToHash;
+             
+         }
+          public final static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
           public static String bytesToStringHex(byte[] bytes) {
               char[] hexChars = new char[bytes.length *2];

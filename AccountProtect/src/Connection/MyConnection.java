@@ -14,15 +14,14 @@ import java.sql.DriverManager;
  */
 public class MyConnection {
     public static Connection getConnection() throws Exception {
-      Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+      Class.forName("com.mysql.jdbc.Driver");
       
-      String hostName = "coordinatedcalendar.database.windows.net";
-      String dbName = "";
-      String user = "user";
-      String password = "V:qkp1sGmrUW";
-      String url = String.format("jdbc:sqlserver://coordinatedcalendar.database.windows.net:1433;database=CoordinatedCalendar;user=user@coordinatedcalendar;password=V:qkp1sGmrUW;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30");
-            
+      String hostName = "www.secs.oakland.edu";
+      String user = "betownson";
+      String password = "WChG3zEdQP5ntscb";
+      String dbName = "betownson";
+      String url = String.format("jdbc:mysql://www.secs.oakland.edu:3306/betownson?zeroDateTimeBehavior=convertToNull");
       return DriverManager.getConnection(url, user, password);
-        
+      
     }
 }

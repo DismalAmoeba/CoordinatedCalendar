@@ -34,14 +34,16 @@ public class GetData {
     
     public String getDataFromDataBase() throws Exception {
         String result = "";
+        
         try {
             conn = MyConnection.getConnection();
             if(conn != null) {
-                String sql ="Select USER_NUM from USER";
+                String sql ="SELECT * FROM `User_tbl`";
                 stm = conn.prepareStatement(sql);
                 rs = stm.executeQuery();
                 while(rs.next()) {
-                    result = result + "," + rs.getString("USER_NUM");
+                    result = result + rs.getString("user_salt");
+// result = result + "," + rs.getString("User_Name");
                 }
             }
         } catch(Exception e) {
@@ -49,6 +51,10 @@ public class GetData {
         }finally {
             CloseConnection();
         }
+       // byte[] salt = result.getBytes();
+        
         return result;
     }
+    
+    
 }
