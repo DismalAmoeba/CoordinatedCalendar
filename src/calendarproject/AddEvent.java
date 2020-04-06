@@ -27,12 +27,13 @@ JLabel endTimeLabel = new JLabel("End Time:");
 JTextField endTimeField = new JTextField(5);
 JButton addEventButton = new JButton("Add Event");
 
-//these default values should never be used
-public int year = -1;
-public int month = -1;
-public int day = (int) -1;
+//grab values from the calendar
+int day = MonthlyCalendar.tblDay;
+int month = MonthlyCalendar.currentMonth;
+int year = MonthlyCalendar.currentYear;
 
     public JFrame addOneTimeEvent(int day, int month, int year){
+        
         addEventButton.addActionListener(new addEventButton_Action());
         addPanel.setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
@@ -80,15 +81,14 @@ public int day = (int) -1;
         addFrame.setSize(HEIGHT,WIDTH);
         addFrame.setVisible(true);
         addFrame.pack();
-        return addFrame;
-        
+        return addFrame;        
     }
+
     class addEventButton_Action implements ActionListener{  
         
         @Override
         public void actionPerformed(ActionEvent e) {
-
-            DataHandler.addToList(0, 1, 0, year, month, day, eventNameLabel.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
+            DataHandler.addToList(0, 1, 0, year, month, day, eventNameField.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
             
             addFrame.dispose(); //yah yeet
         }

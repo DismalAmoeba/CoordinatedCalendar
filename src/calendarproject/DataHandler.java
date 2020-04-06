@@ -1,5 +1,6 @@
 package calendarproject;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class DataHandler {
@@ -16,5 +17,9 @@ public class DataHandler {
         //for usertype, 0 is regular user, 1 is group leader
         
         eventList.add(type + "," + userType + "," + userID + "," + year + "," + month + "," + day + "," + eventName + "," + startTime + "," + endTime);
+        //Reminder: The calendar counts January as month 0, and December as month 11
+        
+        System.out.println(Arrays.toString(eventList.toArray()));
+        //for testing purposes
     }
 }

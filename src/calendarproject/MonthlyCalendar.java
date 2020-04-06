@@ -19,7 +19,7 @@ public class MonthlyCalendar extends JFrame {
     static DefaultTableModel mtblCalendar; //Table model
     static JScrollPane stblCalendar; //The scrollpane
     static JPanel pnlCalendar;
-    static int realYear, realMonth, realDay, currentYear, currentMonth;
+    static int realYear, realMonth, realDay, currentYear, currentMonth, tblDay;
     /**
      * @return 
      */
@@ -236,8 +236,9 @@ public class MonthlyCalendar extends JFrame {
             int col = tblCalendar.columnAtPoint(e.getPoint());
             tblData = tblCalendar.getValueAt(row,col);
             if (row >= 0 && col >= 0 && tblData != null) {
+                tblDay = (int) tblData;
                 AddEvent ae = new AddEvent();
-                ae.addOneTimeEvent((int) tblData,currentMonth,currentYear);
+                ae.addOneTimeEvent(tblDay,currentMonth,currentYear);
             }
         }
     }
