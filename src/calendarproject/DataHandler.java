@@ -9,7 +9,7 @@ public class DataHandler {
     DataHandler use = new DataHandler();
 
     public static ArrayList<String> eventList = new ArrayList<String>();
-    
+
     public static void addToList(int type, int userType, int userID, int year, int month, int day, String eventName, int startTime, int endTime) throws IOException{
         //the first constructor: type is to differenciate if an event happens once or on a certain interval
         //0 for one time
@@ -24,6 +24,8 @@ public class DataHandler {
         //Reminder: The calendar counts January as month 0, and December as month 11
         write();
         //When you put an event in, it writes it to a text file. 
+        read();
+        //Reads from text file.  
         System.out.println(Arrays.toString(eventList.toArray()));
         //for testing purposes
     }
@@ -31,7 +33,8 @@ public class DataHandler {
     public static void write() throws IOException{
             try
             {
-                BufferedWriter writer = new BufferedWriter(new FileWriter("calendar.txt"));
+                FileWriter text = new FileWriter("calendar.txt", true);
+                BufferedWriter writer = new BufferedWriter(text);
                 for (String str : eventList)
                 {
                     writer.write(str + System.lineSeparator());
@@ -44,4 +47,21 @@ public class DataHandler {
             }
                 
         }
+    public static void read() throws IOException{
+            Scanner reader = null;
+            try
+            {
+                reader = new Scanner(new File("calendar.txt")).useDelimiter("\\n");
+            }
+            catch ( FileNotFoundException ex)
+            {
+                System.out.println(ex+"  file not found ");
+            }
+            while (reader.hasNext())
+            {
+                String str = reader.nextLine();
+                eventList.add(str);
+            }
+            reader.close();
     }
+}
