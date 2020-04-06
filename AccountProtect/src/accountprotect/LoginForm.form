@@ -134,10 +134,8 @@
                           <EmptySpace pref="100" max="32767" attributes="0"/>
                           <Component id="jButton_LOGIN" min="-2" pref="73" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jTextField1" max="32767" attributes="0"/>
-                          <Component id="jPasswordField1" pref="238" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="jTextField1" max="32767" attributes="0"/>
+                      <Component id="jPasswordField1" pref="238" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
