@@ -88,9 +88,9 @@ public int day = (int) -1;
         @Override
         public void actionPerformed(ActionEvent e) {
 
-            DataHandler.addToList(0, 1, year, month, day, eventNameLabel.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
+            DataHandler.addToList(0, 1, 0, year, month, day, eventNameLabel.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
             
-            addFrame.dispose();
+            addFrame.dispose(); //yah yeet
         }
     }
 }
