@@ -23,7 +23,7 @@ public class DataHandler {
         //Reminder: The calendar counts January as month 0, and December as month 11
         write();
         //When you put an event in, it writes it to a text file. 
-        read();
+        //read();
         //Reads from text file.  
         System.out.println(Arrays.toString(eventList.toArray()));
         //for testing purposes

@@ -9,10 +9,13 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class MonthlyCalendar extends JFrame {
     static JLabel lblMonth, lblYear;
-    static JButton btnPrev, btnNext, emailButton; //, loadButton;
+    static JButton btnPrev, btnNext, emailButton, loadButton;
     static JTable tblCalendar;
     static JComboBox cmbYear;
     static JFrame frmMain;
@@ -49,7 +52,7 @@ public class MonthlyCalendar extends JFrame {
         stblCalendar = new JScrollPane(tblCalendar);
         pnlCalendar = new JPanel(null);
         emailButton = new JButton("Email");
-        //loadButton = new JButton("Load from file");
+        loadButton = new JButton("Load from file");
         
         //Set border
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
@@ -60,7 +63,7 @@ public class MonthlyCalendar extends JFrame {
         cmbYear.addActionListener(new cmbYear_Action());
         tblCalendar.addMouseListener(new tblCalendar_Action());
         emailButton.addActionListener(new emailButton_Action());
-        //loadButton.addActionListener(new loadButton_Action());
+        loadButton.addActionListener(new loadButton_Action());
         
         //Add controls to pane
         pane.add(pnlCalendar);
@@ -71,7 +74,7 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(btnNext);
         pnlCalendar.add(stblCalendar);
         pnlCalendar.add(emailButton);
-        //pnlCalendar.add(loadButton);
+        pnlCalendar.add(loadButton);
         
         //Set bounds
         pnlCalendar.setBounds(0, 0, 320, 335);
@@ -82,7 +85,7 @@ public class MonthlyCalendar extends JFrame {
         btnNext.setBounds(260, 25, 50, 25);
         stblCalendar.setBounds(10, 50, 300, 250);
         emailButton.setBounds(8, 330, 100, 30);
-        //loadButton.setBounds(118, 330, 100, 30);
+        loadButton.setBounds(118, 330, 100, 30);
         
         //Make frame visible
         frmMain.setResizable(false);
@@ -259,10 +262,14 @@ public class MonthlyCalendar extends JFrame {
         }
     }
 
-//    private static class loadButton_Action implements ActionListener {
-//        @Override
-//        public void actionPerformed(ActionEvent e) {
-//            
-//        }
-//    }
+    private static class loadButton_Action implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                DataHandler.read();
+            } catch (IOException ex) {
+                Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }
