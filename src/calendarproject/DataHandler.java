@@ -21,7 +21,7 @@ public class DataHandler {
         
         eventList.add(type + "," + userType + "," + userID + "," + year + "," + month + "," + day + "," + eventName + "," + startTime + "," + endTime);
         //Reminder: The calendar counts January as month 0, and December as month 11
-        write();
+        //write();
         //When you put an event in, it writes it to a text file. 
         //read();
         //Reads from text file.  
