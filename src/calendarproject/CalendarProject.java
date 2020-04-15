@@ -20,7 +20,7 @@ protected Component calendar(){ //This component creates an internal frame for M
     return frame;
 }
 
-private CalendarProject()
+public CalendarProject()
 {
     //basic stuff for the window
     setTitle("Calendar Project");

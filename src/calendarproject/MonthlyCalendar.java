@@ -4,14 +4,18 @@ package calendarproject;
  *
  * @author cmjun
  */
+import calendarproject.Mail.Mail;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class MonthlyCalendar extends JFrame {
     static JLabel lblMonth, lblYear;
-    static JButton btnPrev, btnNext;
+    static JButton btnPrev, btnNext, emailButton, loadButton, saveButton;
     static JTable tblCalendar;
     static JComboBox cmbYear;
     static JFrame frmMain;
@@ -31,7 +35,7 @@ public class MonthlyCalendar extends JFrame {
         
         //Prepare frame
         frmMain = new JFrame ("Monthly Calendar"); //Create frame
-        frmMain.setSize(330, 375); //Set size to 400x400 pixels
+        frmMain.setSize(500, 500); //Set size to 400x400 pixels
         pane = frmMain.getContentPane(); //Get content pane
         pane.setLayout(null); //Apply null layout
         //frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close when X is clicked
@@ -47,6 +51,9 @@ public class MonthlyCalendar extends JFrame {
         tblCalendar = new JTable(mtblCalendar);
         stblCalendar = new JScrollPane(tblCalendar);
         pnlCalendar = new JPanel(null);
+        emailButton = new JButton("Email");
+        loadButton = new JButton("Load from file");
+        saveButton = new JButton("Save to file");
         
         //Set border
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
@@ -56,6 +63,9 @@ public class MonthlyCalendar extends JFrame {
         btnNext.addActionListener(new btnNext_Action());
         cmbYear.addActionListener(new cmbYear_Action());
         tblCalendar.addMouseListener(new tblCalendar_Action());
+        emailButton.addActionListener(new emailButton_Action());
+        loadButton.addActionListener(new loadButton_Action());
+        saveButton.addActionListener(new saveButton_Action());
         
         //Add controls to pane
         pane.add(pnlCalendar);
@@ -65,6 +75,9 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(btnPrev);
         pnlCalendar.add(btnNext);
         pnlCalendar.add(stblCalendar);
+        pnlCalendar.add(emailButton);
+        pnlCalendar.add(loadButton);
+        pnlCalendar.add(saveButton);
         
         //Set bounds
         pnlCalendar.setBounds(0, 0, 320, 335);
@@ -74,10 +87,13 @@ public class MonthlyCalendar extends JFrame {
         btnPrev.setBounds(10, 25, 50, 25);
         btnNext.setBounds(260, 25, 50, 25);
         stblCalendar.setBounds(10, 50, 300, 250);
+        emailButton.setBounds(8, 330, 100, 30);
+        loadButton.setBounds(118, 330, 100, 30);
+        saveButton.setBounds(118,370,100,30);
         
         //Make frame visible
         frmMain.setResizable(false);
-        frmMain.setVisible(false); //double check to make sure this is set to false
+        frmMain.setVisible(false); //double check to make sure this is set to false, otherwise this renders twice -Alex
         
         //Get real month/year
         GregorianCalendar cal = new GregorianCalendar(); //Create calendar
@@ -239,6 +255,35 @@ public class MonthlyCalendar extends JFrame {
                 tblDay = (int) tblData;
                 AddEvent ae = new AddEvent();
                 ae.addOneTimeEvent(tblDay,currentMonth,currentYear);
+            }
+        }
+    }
+
+    private static class emailButton_Action implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Mail.sendMail( "betownson@oakland.edu", " calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", "Event Reminder");
+        }
+    }
+
+    private static class loadButton_Action implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                DataHandler.read();
+            } catch (IOException ex) {
+                Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private static class saveButton_Action implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                DataHandler.write();
+            } catch (IOException ex) {
+                Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

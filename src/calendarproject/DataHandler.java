@@ -3,12 +3,11 @@ package calendarproject;
 import java.util.Arrays;
 import java.util.*;
 import java.io.*;
-import java.util.LinkedList;
 
 public class DataHandler {
     DataHandler use = new DataHandler();
 
-    public static ArrayList<String> eventList = new ArrayList<String>();
+    public static HashSet<String> eventList = new HashSet<String>();
 
     public static void addToList(int type, int userType, int userID, int year, int month, int day, String eventName, int startTime, int endTime) throws IOException{
         //the first constructor: type is to differenciate if an event happens once or on a certain interval
@@ -22,9 +21,9 @@ public class DataHandler {
         
         eventList.add(type + "," + userType + "," + userID + "," + year + "," + month + "," + day + "," + eventName + "," + startTime + "," + endTime);
         //Reminder: The calendar counts January as month 0, and December as month 11
-        write();
+        //write();
         //When you put an event in, it writes it to a text file. 
-        read();
+        //read();
         //Reads from text file.  
         System.out.println(Arrays.toString(eventList.toArray()));
         //for testing purposes

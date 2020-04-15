@@ -4,6 +4,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -88,7 +91,11 @@ int year = MonthlyCalendar.currentYear;
         
         @Override
         public void actionPerformed(ActionEvent e) {
-            DataHandler.addToList(0, 1, 0, year, month, day, eventNameField.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
+            try {
+                DataHandler.addToList(0, 1, 0, year, month, day, eventNameField.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
+            } catch (IOException ex) {
+                Logger.getLogger(AddEvent.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
             addFrame.dispose(); //yah yeet
         }
