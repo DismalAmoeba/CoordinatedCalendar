@@ -1,5 +1,6 @@
 package calendarproject;
 
+import static calendarproject.MonthlyCalendar.listModel;
 import java.util.Arrays;
 import java.util.*;
 import java.io.*;
@@ -28,6 +29,55 @@ public class DataHandler {
         System.out.println(Arrays.toString(eventList.toArray()));
         //for testing purposes
     }
+    
+    public static void arrayToString(HashSet<String> set){
+        set = eventList;
+        for(int i = 0; i < set.size(); i++){
+            listModel.addElement(i);
+        }  
+    }
+    
+    public static void newEntry(int type, int userType, int userID, int year, int month, int day, String eventName, int startTime, int endTime){
+        //type, userType, and userID will go unused for now
+        
+        String output = "(username) has a " + eventName + " on ";
+        String outputMonth;
+        
+        switch (month){
+            case 0: outputMonth = "Jan";
+            break;
+            case 1: outputMonth = "Feb";
+            break;
+            case 2: outputMonth = "Mar";
+            break;
+            case 3: outputMonth = "Apr";
+            break;
+            case 4: outputMonth = "May";
+            break;
+            case 5: outputMonth = "Jun";
+            break;
+            case 6: outputMonth = "Jul";
+            break;
+            case 7: outputMonth = "Aug";
+            break;
+            case 8: outputMonth = "Sep";
+            break;
+            case 9: outputMonth = "Oct";
+            break;
+            case 10: outputMonth = "Nov";
+            break;
+            case 11: outputMonth = "Dec";
+            break;
+            default: outputMonth = "AAAAAAAAAAAAAAAAAAAAAAA";
+            break;
+        }
+        
+        output = output + outputMonth + " " + day + ", " + year + " at " + startTime + " to " + endTime + ".";
+        
+        listModel.addElement(output);
+    }
+    
+    
     //puts events into txt file
     public static void write() throws IOException{
             try
