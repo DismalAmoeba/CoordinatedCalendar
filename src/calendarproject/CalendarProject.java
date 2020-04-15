@@ -20,7 +20,7 @@ protected Component calendar(){ //This component creates an internal frame for M
     return frame;
 }
 
-private CalendarProject()
+public CalendarProject()
 {
     //basic stuff for the window
     setTitle("Calendar Project");
@@ -35,7 +35,7 @@ private CalendarProject()
     
 }
 
-    public static void main(String[] args){
+    public static void run(){
         //Actually run the program
         CalendarProject yeet = new CalendarProject(); 
     }
