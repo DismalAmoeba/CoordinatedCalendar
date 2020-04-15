@@ -30,16 +30,6 @@ public class AccountProtect {
     LoginForm form = new LoginForm();
     form.show(true);
         
-//        // Prompt for credentials
-//        Scanner input = new Scanner(System.in); 
-//        System.out.println("Please create a username");
-//        String username = input.nextLine();
-//        System.out.println("Please enter a password: ");
-//        String data = input.nextLine();
-//        //Hash code output size (32 bytes) using hash algorithm SHA-256
-//        String algorithm = "SHA-256";
-//        byte[] salt = createSalt();
-//        System.out.println("SHA-256 Hash: " + generateHash(data, algorithm, salt)); 
 
   }
     

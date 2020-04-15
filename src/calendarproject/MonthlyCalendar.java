@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 public class MonthlyCalendar extends JFrame {
     static JLabel lblMonth, lblYear;
-    static JButton btnPrev, btnNext, emailButton, loadButton, saveButton;
+    static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton;
     static JTable tblCalendar;
     static JComboBox cmbYear;
     static JFrame frmMain;
@@ -53,6 +53,7 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar = new JPanel(null);
         emailButton = new JButton("Email");
         loadButton = new JButton("Load from file");
+        logoutButton = new JButton("LOGOUT");
         saveButton = new JButton("Save to file");
         
         //Set border
@@ -65,6 +66,7 @@ public class MonthlyCalendar extends JFrame {
         tblCalendar.addMouseListener(new tblCalendar_Action());
         emailButton.addActionListener(new emailButton_Action());
         loadButton.addActionListener(new loadButton_Action());
+        logoutButton.addActionListener(new logoutButton_Action());
         saveButton.addActionListener(new saveButton_Action());
         
         //Add controls to pane
@@ -77,6 +79,7 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(stblCalendar);
         pnlCalendar.add(emailButton);
         pnlCalendar.add(loadButton);
+        pnlCalendar.add(logoutButton);
         pnlCalendar.add(saveButton);
         
         //Set bounds
@@ -89,6 +92,7 @@ public class MonthlyCalendar extends JFrame {
         stblCalendar.setBounds(10, 50, 300, 250);
         emailButton.setBounds(8, 330, 100, 30);
         loadButton.setBounds(118, 330, 100, 30);
+        logoutButton.setBounds(8, 370, 100, 30);
         saveButton.setBounds(118,370,100,30);
         
         //Make frame visible
@@ -285,6 +289,12 @@ public class MonthlyCalendar extends JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+    private static class logoutButton_Action implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.exit(0);
         }
     }
 }
