@@ -4,7 +4,7 @@ package calendarproject;
  *
  * @author cmjun
  */
-import calendarproject.Mail.Mail;
+import calendarproject.Mail.*;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
@@ -276,7 +276,9 @@ public class MonthlyCalendar extends JFrame {
     private static class emailButton_Action implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Mail.sendMail( "placeholder email", " calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", "Event Reminder");
+            int i = 0;
+            HashSet<String> emailList = new HashSet();
+            Mail.sendMail((emailList.toArray()), " calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", "Event Reminder", "Message");
         }
     }
 
