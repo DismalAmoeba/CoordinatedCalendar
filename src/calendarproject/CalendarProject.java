@@ -35,7 +35,7 @@ public CalendarProject()
     
 }
 
-    public static void main(String[] args){
+    public static void run(){
         //Actually run the program
         CalendarProject yeet = new CalendarProject(); 
     }
