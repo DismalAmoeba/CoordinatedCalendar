@@ -2,6 +2,7 @@ package calendarproject;
 import javax.swing.JFrame;
 import java.awt.Component;
 import java.awt.Container;
+import java.io.IOException;
 import javax.swing.JInternalFrame;
 
 public final class CalendarProject extends JFrame {
@@ -10,7 +11,7 @@ public final class CalendarProject extends JFrame {
     private static final int HEIGHT = 500;
     private static final int WIDTH = 800;
 
-protected Component calendar(){ //This component creates an internal frame for MonthlyCalendar.java
+protected Component calendar() throws IOException{ //This component creates an internal frame for MonthlyCalendar.java
     MonthlyCalendar.run();
     JInternalFrame frame = new JInternalFrame("",false,false,false,false);
     frame.add(MonthlyCalendar.run());
@@ -20,7 +21,7 @@ protected Component calendar(){ //This component creates an internal frame for M
     return frame;
 }
 
-public CalendarProject()
+public CalendarProject() throws IOException
 {
     //basic stuff for the window
     setTitle("Calendar Project");
@@ -35,7 +36,12 @@ public CalendarProject()
     
 }
 
-    public static void run(){
+    public static void run() throws IOException{
+        //Actually run the program
+        CalendarProject yeet = new CalendarProject(); 
+    }
+    
+    public static void main(String args[]) throws IOException{
         //Actually run the program
         CalendarProject yeet = new CalendarProject(); 
     }

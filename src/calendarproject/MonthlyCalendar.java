@@ -4,7 +4,7 @@ package calendarproject;
  *
  * @author cmjun
  */
-import calendarproject.Mail.Mail;
+import calendarproject.Mail.*;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
@@ -24,6 +24,8 @@ public class MonthlyCalendar extends JFrame {
     static JScrollPane stblCalendar; //The scrollpane
     static JPanel pnlCalendar;
     static int realYear, realMonth, realDay, currentYear, currentMonth, tblDay;
+    static JList eventViewer;
+    static DefaultListModel listModel = new DefaultListModel();
     /**
      * @return 
      */
@@ -40,6 +42,10 @@ public class MonthlyCalendar extends JFrame {
         pane.setLayout(null); //Apply null layout
         //frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close when X is clicked
         
+        //store all saved events to the hashlist for the JList
+        listModel.addElement("this should not be seen");
+        listModel.remove(0);
+        
         //Create controls
         lblMonth = new JLabel ("January");
         lblYear = new JLabel ("Change year:");
@@ -55,6 +61,8 @@ public class MonthlyCalendar extends JFrame {
         loadButton = new JButton("Load from file");
         logoutButton = new JButton("LOGOUT");
         saveButton = new JButton("Save to file");
+        eventViewer = new JList(listModel);
+        eventViewer.setLayoutOrientation(JList.VERTICAL);
         
         //Set border
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
@@ -81,6 +89,7 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(loadButton);
         pnlCalendar.add(logoutButton);
         pnlCalendar.add(saveButton);
+        pnlCalendar.add(eventViewer);
         
         //Set bounds
         pnlCalendar.setBounds(0, 0, 320, 335);
@@ -94,6 +103,7 @@ public class MonthlyCalendar extends JFrame {
         loadButton.setBounds(118, 330, 100, 30);
         logoutButton.setBounds(8, 370, 100, 30);
         saveButton.setBounds(118,370,100,30);
+        eventViewer.setBounds(340, 25, 300, 300);
         
         //Make frame visible
         frmMain.setResizable(false);
@@ -266,7 +276,9 @@ public class MonthlyCalendar extends JFrame {
     private static class emailButton_Action implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Mail.sendMail( "betownson@oakland.edu", " calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", "Event Reminder");
+            int i = 0;
+            HashSet<String> emailList = new HashSet();
+            Mail.sendMail((emailList.toArray()), " calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", "Event Reminder", "Message");
         }
     }
 
