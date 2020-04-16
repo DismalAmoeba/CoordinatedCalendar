@@ -63,6 +63,7 @@ public class MonthlyCalendar extends JFrame {
         saveButton = new JButton("Save to file");
         eventViewer = new JList(listModel);
         eventViewer.setLayoutOrientation(JList.VERTICAL);
+        eventViewer.setBorder(BorderFactory.createLineBorder(Color.black));
         
         //Set border
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));

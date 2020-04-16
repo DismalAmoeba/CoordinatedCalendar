@@ -8,8 +8,8 @@ import javax.swing.JInternalFrame;
 public final class CalendarProject extends JFrame {
     
     //Height and width used by main window size
-    private static final int HEIGHT = 500;
-    private static final int WIDTH = 800;
+    private static final int HEIGHT = 470;
+    private static final int WIDTH = 675;
 
 protected Component calendar() throws IOException{ //This component creates an internal frame for MonthlyCalendar.java
     MonthlyCalendar.run();
