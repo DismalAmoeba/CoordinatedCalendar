@@ -276,9 +276,8 @@ public class MonthlyCalendar extends JFrame {
     private static class emailButton_Action implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int i = 0;
-            HashSet<String> emailList = new HashSet();
-            Mail.sendMail((emailList.toArray()), " calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", "Event Reminder", "Message");
+            SendMailUI fullSend = new SendMailUI();
+            fullSend.sendIt();
         }
     }
 

@@ -41,8 +41,9 @@ public CalendarProject() throws IOException
         CalendarProject yeet = new CalendarProject(); 
     }
     
-    public static void main(String args[]) throws IOException{
+    public static void main(String[] args) throws IOException{
         //Actually run the program
-        CalendarProject yeet = new CalendarProject(); 
+        CalendarProject yeet = new CalendarProject();
     }
+
 }
