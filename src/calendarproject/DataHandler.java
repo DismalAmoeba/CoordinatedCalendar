@@ -160,22 +160,20 @@ public class DataHandler {
             reader.close();
             
     }
-     public static void merge() throws IOException{
+     public static void merge(String inputFile1, String inputFile2, String outputFile) throws IOException{
         String output="";
-        try(Scanner sc1=new Scanner((new File("A.txt")));
-        Scanner sc2=new Scanner((new File("B.txt")))){
+        try(Scanner sc1=new Scanner((new File(inputFile1)));
+        Scanner sc2=new Scanner((new File(inputFile2)))){
 
         while(sc1.hasNext() || sc2.hasNext()){
-            output+=sc1.next() +" "+ sc2.next();
+            output+=sc1.next() + "\n" + sc2.next();
             output+="\n";
         }
 
         }
 
-        try(PrintWriter pw=new PrintWriter(new File("C.txt"))){
+        try(PrintWriter pw=new PrintWriter(new File(outputFile))){
         pw.write(output);
         } 
-		sc1.close();
-		sc2.close();
     }
 }
