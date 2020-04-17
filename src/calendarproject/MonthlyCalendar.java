@@ -11,6 +11,7 @@ import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;  
 import java.awt.event.ActionEvent;
 public class MonthlyCalendar extends JFrame {
-    static JLabel lblMonth, lblYear;
+    static JLabel lblMonth, lblYear, clockLabel;
     static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton, deleteEventButton;
     static JTable tblCalendar;
     static JComboBox cmbYear;
@@ -32,11 +33,14 @@ public class MonthlyCalendar extends JFrame {
     static int realYear, realMonth, realDay, currentYear, currentMonth, tblDay;
     static JList eventViewer;
     static DefaultListModel listModel = new DefaultListModel();
+    
+    public final static int ONE_SECOND = 1000;
+    private final static SimpleDateFormat clockFormat = new SimpleDateFormat("H:mm:ss");
     /**
      * @return 
      */
     
-    
+
     public static JPanel run(){
            try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());}
         catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {}
@@ -55,6 +59,7 @@ public class MonthlyCalendar extends JFrame {
         //Create controls
         lblMonth = new JLabel ("January");
         lblYear = new JLabel ("Change year:");
+        clockLabel = new JLabel();
         cmbYear = new JComboBox();
         btnPrev = new JButton ("<<");
         btnNext = new JButton (">>");
@@ -100,6 +105,7 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(saveButton);
         pnlCalendar.add(eventViewer);
         pnlCalendar.add(deleteEventButton);
+        pnlCalendar.add(clockLabel);
         
         //Set bounds
         pnlCalendar.setBounds(0, 0, 320, 335);
@@ -115,7 +121,7 @@ public class MonthlyCalendar extends JFrame {
         saveButton.setBounds(118,370,100,30);
         eventViewer.setBounds(340, 25, 300, 300);
         deleteEventButton.setBounds(340,335,120,30);
-        
+        clockLabel.setBounds(510, 335, 120, 30); 
         //Make frame visible
         frmMain.setResizable(false);
         frmMain.setVisible(false); //double check to make sure this is set to false, otherwise this renders twice -Alex
@@ -157,7 +163,14 @@ public class MonthlyCalendar extends JFrame {
         
         //Refresh calendar
         refreshCalendar (realMonth, realYear); //Refresh calendar
-        
+        Timer timer = new Timer(ONE_SECOND, new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                clockLabel.setText(clockFormat.format(new Date()));
+                clockLabel.repaint();
+            }
+        });
+        clockLabel.setText(clockFormat.format(new Date()));
+        timer.start();
         return pnlCalendar;
     }
     
