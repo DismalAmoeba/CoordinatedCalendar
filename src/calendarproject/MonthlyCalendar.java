@@ -358,7 +358,7 @@ public class MonthlyCalendar extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                DataHandler.merge("A.txt", "B.txt", "C.txt");
+                DataHandler.write();
             } catch (IOException ex) {
                 Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
             }
