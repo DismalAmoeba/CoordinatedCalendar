@@ -30,10 +30,55 @@ public class DataHandler {
         //for testing purposes
     }
     
-    public static void arrayToString(HashSet<String> set){
-        set = eventList;
-        for(int i = 0; i < set.size(); i++){
-            listModel.addElement(i);
+    public static void arrayToString(){
+        //create everything used in the loops
+        String typeAsString;
+        String userTypeAsString;
+        String userIDAsString;
+        String yearAsString;
+        String monthAsString;
+        String dayAsString;
+        String eventNameTemp;
+        String startTimeAsString;
+        String endTimeAsString;
+        
+        //Initalize, these should never be used
+        int type = 0;
+        int userType = 0;
+        int userID = 0;
+        int year = 0;
+        int month = 0;
+        int day = 0;
+        String eventName = "null";
+        int startTime = 0;
+        int endTime = 0;
+        
+        String[] eventArray = eventList.toArray(new String[0]);
+        for(int i = 0; i < eventArray.length; i++){
+            String evt = eventArray[i];
+            String[] arrOfEvt = evt.split(",");
+            for(int a = 0; a < arrOfEvt.length; a++){
+                typeAsString = arrOfEvt[0];
+                userTypeAsString = (arrOfEvt[1]);
+                userIDAsString = (arrOfEvt[2]);
+                yearAsString = (arrOfEvt[3]);
+                monthAsString = (arrOfEvt[4]);
+                dayAsString = (arrOfEvt[5]);
+                eventNameTemp = arrOfEvt[6];
+                startTimeAsString = (arrOfEvt[7]);
+                endTimeAsString = (arrOfEvt[8]);
+              
+                type = Integer.parseInt(typeAsString);
+                userType = Integer.parseInt(userTypeAsString);
+                userID = Integer.parseInt(userIDAsString);
+                year = Integer.parseInt(yearAsString);
+                month = Integer.parseInt(monthAsString);
+                day = Integer.parseInt(dayAsString);
+                eventName = eventNameTemp.trim();
+                startTime = Integer.parseInt(startTimeAsString);
+                endTime = Integer.parseInt(endTimeAsString);
+            }
+        newEntry(type, userType, userID, year, month, day, eventName, startTime, endTime);
         }  
     }
     

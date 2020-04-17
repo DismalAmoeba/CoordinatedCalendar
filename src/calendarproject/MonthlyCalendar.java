@@ -287,6 +287,7 @@ public class MonthlyCalendar extends JFrame {
         public void actionPerformed(ActionEvent e) {
             try {
                 DataHandler.read();
+                DataHandler.arrayToString();
             } catch (IOException ex) {
                 Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
             }
