@@ -177,6 +177,5 @@ public class DataHandler {
         try(PrintWriter pw=new PrintWriter(new File(outputFile))){
         pw.write(output);
         } 
-        
     }
 }
