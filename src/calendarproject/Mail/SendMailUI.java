@@ -47,10 +47,9 @@ public class SendMailUI {
         emailUI.setSize(250, 400);
         emailUIList.setBorder(BorderFactory.createLineBorder(Color.black));
         emailUIList.setSize (100, 300);
-        emailUIMessageBody.setColumns(10);
-        emailUIMessageBody.setRows(4);
+        emailUIMessageBody.setLineWrap(true);
         
-        grid.fill = GridBagConstraints.HORIZONTAL;
+        grid.fill = GridBagConstraints.BOTH;
         grid.gridx = 0;
         grid.gridy = 0;
         grid.gridwidth = 1;
@@ -93,9 +92,11 @@ public class SendMailUI {
     private class emailAddToList_Action implements ActionListener {
         @Override
         public void actionPerformed (ActionEvent e){
-            emailUIListModel.addElement(emailUIInput.getText());
-            emailList.add(emailUIInput.getText());
-            emailUIInput.setText("");
+            if (!"".equals(emailUIInput.getText())) {
+                emailUIListModel.addElement(emailUIInput.getText());
+                emailList.add(emailUIInput.getText());
+                emailUIInput.setText("");
+            }
         }
     }
 
@@ -112,7 +113,8 @@ public class SendMailUI {
     private class emailUISendButton_Action implements ActionListener {
         @Override
         public void actionPerformed (ActionEvent e){
-            Mail.sendMail((emailList.toArray()), "calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", emailUIMessageSubject.getText(), emailUIMessageBody.getText());
+            String[] emailArray = emailList.toArray(new String[0]);
+            Mail.sendMail(emailArray, "calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", emailUIMessageSubject.getText(), emailUIMessageBody.getText());
             emailUI.dispose(); //yeeeeeeet
         }
     }
