@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Timer;
 
 public class MonthlyCalendar extends JFrame {
 
@@ -30,6 +31,7 @@ public class MonthlyCalendar extends JFrame {
     static JList eventViewer;
     static DefaultListModel listModel = new DefaultListModel();
     static JFileChooser fc;
+    static SimpleDigitalClock clock1;
 
     /**
      * @return
@@ -74,7 +76,7 @@ public class MonthlyCalendar extends JFrame {
         eventViewer.setLayoutOrientation(JList.VERTICAL);
         eventViewer.setBorder(BorderFactory.createLineBorder(Color.black));
         deleteEventButton = new JButton("Remove Event");
-        JFileChooser fc;
+        clock1 = new SimpleDigitalClock();
 
         //Set border
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
@@ -104,6 +106,7 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(saveButton);
         pnlCalendar.add(eventViewer);
         pnlCalendar.add(deleteEventButton);
+        pnlCalendar.add(clock1);
 
         //Set bounds
         pnlCalendar.setBounds(0, 0, 320, 335);
@@ -119,6 +122,7 @@ public class MonthlyCalendar extends JFrame {
         saveButton.setBounds(118, 370, 100, 30);
         eventViewer.setBounds(340, 25, 300, 300);
         deleteEventButton.setBounds(340, 335, 120, 30);
+        clock1.setBounds(370,365,100,50);
 
         //Make frame visible
         frmMain.setResizable(false);
@@ -333,7 +337,6 @@ public class MonthlyCalendar extends JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
     }
 
@@ -355,4 +358,64 @@ public class MonthlyCalendar extends JFrame {
             }
         }
     }
+    
+    static class SimpleDigitalClock extends JPanel {  
+        String stringTime;  
+        int hour, minute, second;  
+        String aHour = "";  
+        String bMinute = "";  
+        String cSecond = "";  
+        public void setStringTime(String abc) {  
+            this.stringTime = abc;  
+        }  
+        public int Number(int a, int b) {  
+            return (a <= b) ? a : b;  
+        }  
+        SimpleDigitalClock() {  
+            Timer t = new Timer(1000, new ActionListener() {  
+                public void actionPerformed(ActionEvent e) {  
+                    repaint();  
+                }  
+            });  
+            t.start();  
+        }  
+        @Override  
+        public void paintComponent(Graphics v) {  
+            super.paintComponent(v);  
+            Calendar rite = Calendar.getInstance();  
+            hour = rite.get(Calendar.HOUR_OF_DAY);  
+            minute = rite.get(Calendar.MINUTE);  
+            second = rite.get(Calendar.SECOND);  
+            if (hour < 10) {  
+                this.aHour = "0";  
+            }  
+            if (hour >= 10) {  
+                this.aHour = "";  
+            }  
+            if (minute < 10) {  
+                this.bMinute = "0";  
+            }  
+            if (minute >= 10) {  
+                this.bMinute = "";  
+            }  
+            if (second < 10) {  
+                this.cSecond = "0";  
+            }  
+            if (second >= 10) {  
+                this.cSecond = "";  
+            }  
+            setStringTime(aHour + hour + ":" + bMinute + minute + ":" + cSecond + second);  
+            v.setColor(Color.BLACK);  
+            int length = Number(this.getWidth(), this.getHeight());  
+            Font Font1 = new Font("SansSerif", Font.PLAIN, length / 5);  
+            v.setFont(Font1);  
+            v.drawString(stringTime, (int) length / 6, length / 2);  
+        }  
+        @Override  
+        public Dimension getPreferredSize() {  
+            return new Dimension(200, 200);  
+        }  
+    }  
 }
+
+
