@@ -40,7 +40,7 @@ int year = MonthlyCalendar.currentYear;
         addEventButton.addActionListener(new addEventButton_Action());
         addPanel.setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
-        dateLabel = new JLabel("Selected date:\r\n" + day + "/" + month + "/" + year);
+        dateLabel = new JLabel("Selected date:\r\n" + day + "/" + (month + 1) + "/" + year);
         
         grid.fill = GridBagConstraints.HORIZONTAL;
         grid.gridx = 0;
@@ -93,6 +93,7 @@ int year = MonthlyCalendar.currentYear;
         public void actionPerformed(ActionEvent e) {
             try {
                 DataHandler.addToList(0, 1, 0, year, month, day, eventNameField.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
+                DataHandler.newEntry(0, 1, 0, year, month, day, eventNameField.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
             } catch (IOException ex) {
                 Logger.getLogger(AddEvent.class.getName()).log(Level.SEVERE, null, ex);
             }
