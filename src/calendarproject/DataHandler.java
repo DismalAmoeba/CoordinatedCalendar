@@ -6,9 +6,9 @@ import java.util.*;
 import java.io.*;
 
 public class DataHandler {
-    DataHandler use = new DataHandler();
+    //DataHandler use = new DataHandler();
 
-    public static HashSet<String> eventList = new HashSet<String>();
+    public static ArrayList<String> eventList = new ArrayList<String>();
 
     public static void addToList(int type, int userType, int userID, int year, int month, int day, String eventName, int startTime, int endTime) throws IOException{
         //the first constructor: type is to differenciate if an event happens once or on a certain interval
@@ -127,7 +127,7 @@ public class DataHandler {
     public static void write() throws IOException{
             try
             {
-                FileWriter text = new FileWriter("calendar.txt", true);
+                FileWriter text = new FileWriter("calendar.txt", false);
                 BufferedWriter writer = new BufferedWriter(text);
                 for (String str : eventList)
                 {
