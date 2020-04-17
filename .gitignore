@@ -16,6 +16,4 @@ nbproject/private/private.properties
 nbproject/private/private.properties
 *.class
 *.properties
-/nbproject/private/
-/dist/
-/build/
+*.class
