@@ -160,7 +160,7 @@ public class DataHandler {
             reader.close();
             
     }
-     public static void main(String[] args) throws IOException{
+     public static void merge() throws IOException{
         String output="";
         try(Scanner sc1=new Scanner((new File("A.txt")));
         Scanner sc2=new Scanner((new File("B.txt")))){
@@ -174,6 +174,8 @@ public class DataHandler {
 
         try(PrintWriter pw=new PrintWriter(new File("C.txt"))){
         pw.write(output);
-        }        
+        } 
+		sc1.close();
+		sc2.close();
     }
 }
