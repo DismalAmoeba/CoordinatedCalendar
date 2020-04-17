@@ -4,7 +4,8 @@ package calendarproject;
  *
  * @author cmjun
  */
-import calendarproject.Mail.Mail;
+import static calendarproject.DataHandler.eventList;
+import calendarproject.Mail.*;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
@@ -13,9 +14,14 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+import java.awt.Color;
+import java.awt.event.ActionListener;  
+import javax.swing.Timer;  
+import java.awt.event.ActionEvent;
 public class MonthlyCalendar extends JFrame {
     static JLabel lblMonth, lblYear;
-    static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton;
+    static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton, deleteEventButton;
     static JTable tblCalendar;
     static JComboBox cmbYear;
     static JFrame frmMain;
@@ -24,6 +30,8 @@ public class MonthlyCalendar extends JFrame {
     static JScrollPane stblCalendar; //The scrollpane
     static JPanel pnlCalendar;
     static int realYear, realMonth, realDay, currentYear, currentMonth, tblDay;
+    static JList eventViewer;
+    static DefaultListModel listModel = new DefaultListModel();
     /**
      * @return 
      */
@@ -40,6 +48,10 @@ public class MonthlyCalendar extends JFrame {
         pane.setLayout(null); //Apply null layout
         //frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close when X is clicked
         
+        //store all saved events to the hashlist for the JList
+        listModel.addElement("this should not be seen");
+        listModel.remove(0);
+        
         //Create controls
         lblMonth = new JLabel ("January");
         lblYear = new JLabel ("Change year:");
@@ -55,6 +67,10 @@ public class MonthlyCalendar extends JFrame {
         loadButton = new JButton("Load from file");
         logoutButton = new JButton("LOGOUT");
         saveButton = new JButton("Save to file");
+        eventViewer = new JList(listModel);
+        eventViewer.setLayoutOrientation(JList.VERTICAL);
+        eventViewer.setBorder(BorderFactory.createLineBorder(Color.black));
+        deleteEventButton = new JButton("Remove Event");
         
         //Set border
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
@@ -68,6 +84,7 @@ public class MonthlyCalendar extends JFrame {
         loadButton.addActionListener(new loadButton_Action());
         logoutButton.addActionListener(new logoutButton_Action());
         saveButton.addActionListener(new saveButton_Action());
+        deleteEventButton.addActionListener(new deleteEventButton_Action());
         
         //Add controls to pane
         pane.add(pnlCalendar);
@@ -81,6 +98,8 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(loadButton);
         pnlCalendar.add(logoutButton);
         pnlCalendar.add(saveButton);
+        pnlCalendar.add(eventViewer);
+        pnlCalendar.add(deleteEventButton);
         
         //Set bounds
         pnlCalendar.setBounds(0, 0, 320, 335);
@@ -94,6 +113,8 @@ public class MonthlyCalendar extends JFrame {
         loadButton.setBounds(118, 330, 100, 30);
         logoutButton.setBounds(8, 370, 100, 30);
         saveButton.setBounds(118,370,100,30);
+        eventViewer.setBounds(340, 25, 300, 300);
+        deleteEventButton.setBounds(340,335,120,30);
         
         //Make frame visible
         frmMain.setResizable(false);
@@ -193,6 +214,42 @@ public class MonthlyCalendar extends JFrame {
                     setBackground(new Color(220, 220, 255));
                 }
             }
+            String yearAsString;
+            String monthAsString;
+            String dayAsString;
+
+            
+            //Initalize, these should never be used
+            int year = 0;
+            int month = 0;
+            int day = 0;            
+            String[] eventArray = eventList.toArray(new String[0]);
+            for(int i = 0; i < eventArray.length; i++){
+                String evt = eventArray[i];
+                String[] arrOfEvt = evt.split(",");
+                for(int a = 0; a < arrOfEvt.length; a++){
+                    yearAsString = (arrOfEvt[3]);
+                    monthAsString = (arrOfEvt[4]);
+                    dayAsString = (arrOfEvt[5]);
+                    year = Integer.parseInt(yearAsString);
+                    month = Integer.parseInt(monthAsString);
+                    day = Integer.parseInt(dayAsString);
+                    if (value != null){
+                        if (Integer.parseInt(value.toString()) == day && currentMonth == month && currentYear == year){ 
+                        	if (column == 0 || column == 6){ //Week-end
+                        		setBackground(new Color(150, 235, 100));
+                            }
+                            else{ //Week
+                                setBackground(new Color(200, 255, 150));
+                            }
+                        	if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth && currentYear == realYear){ //Today
+                                setBackground(new Color(100, 215, 50));
+                            }
+                        }
+                    }
+                }
+            }
+
             setBorder(null);
             setForeground(Color.black);
             return this;
@@ -266,7 +323,8 @@ public class MonthlyCalendar extends JFrame {
     private static class emailButton_Action implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Mail.sendMail( "betownson@oakland.edu", " calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", "Event Reminder");
+            SendMailUI fullSend = new SendMailUI();
+            fullSend.sendIt();
         }
     }
 
@@ -275,9 +333,11 @@ public class MonthlyCalendar extends JFrame {
         public void actionPerformed(ActionEvent e) {
             try {
                 DataHandler.read();
+                DataHandler.arrayToString();
             } catch (IOException ex) {
                 Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
             }
+            refreshCalendar(currentMonth, currentYear);
         }
     }
     
@@ -297,4 +357,80 @@ public class MonthlyCalendar extends JFrame {
             System.exit(0);
         }
     }
+
+    private static class deleteEventButton_Action implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (eventViewer.getSelectedIndex() != -1) {
+                eventList.remove(eventViewer.getSelectedIndex());
+                listModel.remove(eventViewer.getSelectedIndex());
+            }
+            refreshCalendar(currentMonth, currentYear);
+        }
+    }
+    public static void Clock() {  
+        JFrame frm = new JFrame();  
+        frm.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);  
+        SimpleDigitalClock clock1 = new SimpleDigitalClock();  
+        frm.add(clock1);  
+        frm.pack();  
+        frm.setVisible(true);  
+    }  
+    static class SimpleDigitalClock extends JPanel {  
+        String stringTime;  
+        int hour, minute, second;  
+        String aHour = "";  
+        String bMinute = "";  
+        String cSecond = "";  
+        public void setStringTime(String abc) {  
+            this.stringTime = abc;  
+        }  
+        public int Number(int a, int b) {  
+            return (a <= b) ? a : b;  
+        }  
+        SimpleDigitalClock() {  
+            Timer t = new Timer(1000, new ActionListener() {  
+                public void actionPerformed(ActionEvent e) {  
+                    repaint();  
+                }  
+            });  
+            t.start();  
+        }  
+        @Override  
+        public void paintComponent(Graphics v) {  
+            super.paintComponent(v);  
+            Calendar rite = Calendar.getInstance();  
+            hour = rite.get(Calendar.HOUR_OF_DAY);  
+            minute = rite.get(Calendar.MINUTE);  
+            second = rite.get(Calendar.SECOND);  
+            if (hour < 10) {  
+                this.aHour = "0";  
+            }  
+            if (hour >= 10) {  
+                this.aHour = "";  
+            }  
+            if (minute < 10) {  
+                this.bMinute = "0";  
+            }  
+            if (minute >= 10) {  
+                this.bMinute = "";  
+            }  
+            if (second < 10) {  
+                this.cSecond = "0";  
+            }  
+            if (second >= 10) {  
+                this.cSecond = "";  
+            }  
+            setStringTime(aHour + hour + ":" + bMinute + minute + ":" + cSecond + second);  
+            v.setColor(Color.BLACK);  
+            int length = Number(this.getWidth(), this.getHeight());  
+            Font Font1 = new Font("SansSerif", Font.PLAIN, length / 5);  
+            v.setFont(Font1);  
+            v.drawString(stringTime, (int) length / 6, length / 2);  
+        }  
+        @Override  
+        public Dimension getPreferredSize() {  
+            return new Dimension(200, 200);  
+        }  
+    }  
 }
