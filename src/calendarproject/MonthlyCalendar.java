@@ -214,6 +214,42 @@ public class MonthlyCalendar extends JFrame {
                     setBackground(new Color(220, 220, 255));
                 }
             }
+            String yearAsString;
+            String monthAsString;
+            String dayAsString;
+
+            
+            //Initalize, these should never be used
+            int year = 0;
+            int month = 0;
+            int day = 0;            
+            String[] eventArray = eventList.toArray(new String[0]);
+            for(int i = 0; i < eventArray.length; i++){
+                String evt = eventArray[i];
+                String[] arrOfEvt = evt.split(",");
+                for(int a = 0; a < arrOfEvt.length; a++){
+                    yearAsString = (arrOfEvt[3]);
+                    monthAsString = (arrOfEvt[4]);
+                    dayAsString = (arrOfEvt[5]);
+                    year = Integer.parseInt(yearAsString);
+                    month = Integer.parseInt(monthAsString);
+                    day = Integer.parseInt(dayAsString);
+                    if (value != null){
+                        if (Integer.parseInt(value.toString()) == day && currentMonth == month && currentYear == year){ 
+                        	if (column == 0 || column == 6){ //Week-end
+                        		setBackground(new Color(150, 235, 100));
+                            }
+                            else{ //Week
+                                setBackground(new Color(200, 255, 150));
+                            }
+                        	if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth && currentYear == realYear){ //Today
+                                setBackground(new Color(100, 215, 50));
+                            }
+                        }
+                    }
+                }
+            }
+
             setBorder(null);
             setForeground(Color.black);
             return this;
@@ -301,6 +337,7 @@ public class MonthlyCalendar extends JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
             }
+            refreshCalendar(currentMonth, currentYear);
         }
     }
     
@@ -328,6 +365,7 @@ public class MonthlyCalendar extends JFrame {
                 eventList.remove(eventViewer.getSelectedIndex());
                 listModel.remove(eventViewer.getSelectedIndex());
             }
+            refreshCalendar(currentMonth, currentYear);
         }
     }
     public static void Clock() {  

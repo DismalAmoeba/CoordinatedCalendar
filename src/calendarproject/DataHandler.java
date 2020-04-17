@@ -175,7 +175,5 @@ public class DataHandler {
         try(PrintWriter pw=new PrintWriter(new File("C.txt"))){
         pw.write(output);
         } 
-		sc1.close();
-		sc2.close();
     }
 }
