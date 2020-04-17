@@ -13,3 +13,9 @@ build/classes/calendarproject/MonthlyCalendar.class
 build/classes/Mail$1.class
 build/classes/Mail.class
 nbproject/private/private.properties
+nbproject/private/private.properties
+*.class
+*.properties
+/nbproject/private/
+/dist/
+/build/

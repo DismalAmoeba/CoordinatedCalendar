@@ -4,6 +4,7 @@ package calendarproject;
  *
  * @author cmjun
  */
+import static calendarproject.DataHandler.eventList;
 import calendarproject.Mail.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -15,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 public class MonthlyCalendar extends JFrame {
     static JLabel lblMonth, lblYear;
-    static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton;
+    static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton, deleteEventButton;
     static JTable tblCalendar;
     static JComboBox cmbYear;
     static JFrame frmMain;
@@ -63,6 +64,8 @@ public class MonthlyCalendar extends JFrame {
         saveButton = new JButton("Save to file");
         eventViewer = new JList(listModel);
         eventViewer.setLayoutOrientation(JList.VERTICAL);
+        eventViewer.setBorder(BorderFactory.createLineBorder(Color.black));
+        deleteEventButton = new JButton("Remove Event");
         
         //Set border
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
@@ -76,6 +79,7 @@ public class MonthlyCalendar extends JFrame {
         loadButton.addActionListener(new loadButton_Action());
         logoutButton.addActionListener(new logoutButton_Action());
         saveButton.addActionListener(new saveButton_Action());
+        deleteEventButton.addActionListener(new deleteEventButton_Action());
         
         //Add controls to pane
         pane.add(pnlCalendar);
@@ -90,6 +94,7 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(logoutButton);
         pnlCalendar.add(saveButton);
         pnlCalendar.add(eventViewer);
+        pnlCalendar.add(deleteEventButton);
         
         //Set bounds
         pnlCalendar.setBounds(0, 0, 320, 335);
@@ -104,6 +109,7 @@ public class MonthlyCalendar extends JFrame {
         logoutButton.setBounds(8, 370, 100, 30);
         saveButton.setBounds(118,370,100,30);
         eventViewer.setBounds(340, 25, 300, 300);
+        deleteEventButton.setBounds(340,335,120,30);
         
         //Make frame visible
         frmMain.setResizable(false);
@@ -203,6 +209,42 @@ public class MonthlyCalendar extends JFrame {
                     setBackground(new Color(220, 220, 255));
                 }
             }
+            String yearAsString;
+            String monthAsString;
+            String dayAsString;
+
+            
+            //Initalize, these should never be used
+            int year = 0;
+            int month = 0;
+            int day = 0;            
+            String[] eventArray = eventList.toArray(new String[0]);
+            for(int i = 0; i < eventArray.length; i++){
+                String evt = eventArray[i];
+                String[] arrOfEvt = evt.split(",");
+                for(int a = 0; a < arrOfEvt.length; a++){
+                    yearAsString = (arrOfEvt[3]);
+                    monthAsString = (arrOfEvt[4]);
+                    dayAsString = (arrOfEvt[5]);
+                    year = Integer.parseInt(yearAsString);
+                    month = Integer.parseInt(monthAsString);
+                    day = Integer.parseInt(dayAsString);
+                    if (value != null){
+                        if (Integer.parseInt(value.toString()) == day && currentMonth == month && currentYear == year){ 
+                        	if (column == 0 || column == 6){ //Week-end
+                        		setBackground(new Color(150, 235, 100));
+                            }
+                            else{ //Week
+                                setBackground(new Color(200, 255, 150));
+                            }
+                        	if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth && currentYear == realYear){ //Today
+                                setBackground(new Color(100, 215, 50));
+                            }
+                        }
+                    }
+                }
+            }
+
             setBorder(null);
             setForeground(Color.black);
             return this;
@@ -276,9 +318,8 @@ public class MonthlyCalendar extends JFrame {
     private static class emailButton_Action implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int i = 0;
-            HashSet<String> emailList = new HashSet();
-            Mail.sendMail((emailList.toArray()), " calanderp84@gmail.com", "sPqG9MHdj3Hur7sP", "Event Reminder", "Message");
+            SendMailUI fullSend = new SendMailUI();
+            fullSend.sendIt();
         }
     }
 
@@ -287,9 +328,11 @@ public class MonthlyCalendar extends JFrame {
         public void actionPerformed(ActionEvent e) {
             try {
                 DataHandler.read();
+                DataHandler.arrayToString();
             } catch (IOException ex) {
                 Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
             }
+            refreshCalendar(currentMonth, currentYear);
         }
     }
     
@@ -307,6 +350,17 @@ public class MonthlyCalendar extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
+        }
+    }
+
+    private static class deleteEventButton_Action implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (eventViewer.getSelectedIndex() != -1) {
+                eventList.remove(eventViewer.getSelectedIndex());
+                listModel.remove(eventViewer.getSelectedIndex());
+            }
+            refreshCalendar(currentMonth, currentYear);
         }
     }
 }
