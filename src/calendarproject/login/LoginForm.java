@@ -7,7 +7,6 @@ package calendarproject.login;
 
 import calendarproject.CalendarProject;
 import static calendarproject.login.AccountProtect.generateHash;
-import com.sun.istack.internal.logging.Logger;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
