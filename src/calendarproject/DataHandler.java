@@ -169,11 +169,14 @@ public class DataHandler {
             output+=sc1.next() + "\n" + sc2.next();
             output+="\n";
         }
+        sc1.close();
+		sc2.close();
 
         }
 
         try(PrintWriter pw=new PrintWriter(new File(outputFile))){
         pw.write(output);
         } 
+        
     }
 }
