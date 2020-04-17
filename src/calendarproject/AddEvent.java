@@ -40,7 +40,7 @@ int year = MonthlyCalendar.currentYear;
         addEventButton.addActionListener(new addEventButton_Action());
         addPanel.setLayout(new GridBagLayout());
         GridBagConstraints grid = new GridBagConstraints();
-        dateLabel = new JLabel("Selected date:\r\n" + day + "/" + month + "/" + year);
+        dateLabel = new JLabel("Selected date:\r\n" + day + "/" + (month + 1) + "/" + year);
         
         grid.fill = GridBagConstraints.HORIZONTAL;
         grid.gridx = 0;

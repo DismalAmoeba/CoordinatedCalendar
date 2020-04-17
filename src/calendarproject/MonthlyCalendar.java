@@ -4,6 +4,7 @@ package calendarproject;
  *
  * @author cmjun
  */
+import static calendarproject.DataHandler.eventList;
 import calendarproject.Mail.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -15,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 public class MonthlyCalendar extends JFrame {
     static JLabel lblMonth, lblYear;
-    static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton;
+    static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton, deleteEventButton;
     static JTable tblCalendar;
     static JComboBox cmbYear;
     static JFrame frmMain;
@@ -64,6 +65,7 @@ public class MonthlyCalendar extends JFrame {
         eventViewer = new JList(listModel);
         eventViewer.setLayoutOrientation(JList.VERTICAL);
         eventViewer.setBorder(BorderFactory.createLineBorder(Color.black));
+        deleteEventButton = new JButton("Remove Event");
         
         //Set border
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
@@ -77,6 +79,7 @@ public class MonthlyCalendar extends JFrame {
         loadButton.addActionListener(new loadButton_Action());
         logoutButton.addActionListener(new logoutButton_Action());
         saveButton.addActionListener(new saveButton_Action());
+        deleteEventButton.addActionListener(new deleteEventButton_Action());
         
         //Add controls to pane
         pane.add(pnlCalendar);
@@ -91,6 +94,7 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(logoutButton);
         pnlCalendar.add(saveButton);
         pnlCalendar.add(eventViewer);
+        pnlCalendar.add(deleteEventButton);
         
         //Set bounds
         pnlCalendar.setBounds(0, 0, 320, 335);
@@ -105,6 +109,7 @@ public class MonthlyCalendar extends JFrame {
         logoutButton.setBounds(8, 370, 100, 30);
         saveButton.setBounds(118,370,100,30);
         eventViewer.setBounds(340, 25, 300, 300);
+        deleteEventButton.setBounds(340,335,120,30);
         
         //Make frame visible
         frmMain.setResizable(false);
@@ -287,6 +292,7 @@ public class MonthlyCalendar extends JFrame {
         public void actionPerformed(ActionEvent e) {
             try {
                 DataHandler.read();
+                DataHandler.arrayToString();
             } catch (IOException ex) {
                 Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -307,6 +313,16 @@ public class MonthlyCalendar extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.exit(0);
+        }
+    }
+
+    private static class deleteEventButton_Action implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (eventViewer.getSelectedIndex() != -1) {
+                eventList.remove(eventViewer.getSelectedIndex());
+                listModel.remove(eventViewer.getSelectedIndex());
+            }
         }
     }
 }
