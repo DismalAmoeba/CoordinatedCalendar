@@ -246,6 +246,8 @@ public class LoginForm extends javax.swing.JFrame {
             rs = ps.executeQuery();
             if (rs.next()) 
             {
+                  GetData sendusername = new GetData();
+                  sendusername.getDataFromDataBase(uname);
                  String userhash = rs.getString("user_hash");
             byte[] salt = rs.getBytes("user_salt");
             String computedhash = myHash.generateHash(enteredpass, algorithm, salt);

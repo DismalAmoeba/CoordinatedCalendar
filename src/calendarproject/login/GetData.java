@@ -32,25 +32,11 @@ public class GetData {
         }
     }
     
-    //Test function to check connection with DB
-    public String getDataFromDataBase() throws Exception {
-        String result = "";
+    //Store username that is logged in
+    public String getDataFromDataBase(String username) throws Exception {
+        String result = username;
         
-        try {
-            conn = MyConnection.getConnection();
-            if(conn != null) {
-                String sql ="SELECT * FROM `User_tbl`";
-                stm = conn.prepareStatement(sql);
-                rs = stm.executeQuery();
-                while(rs.next()) {
-                    result = result + rs.getString("user_salt");
-                }
-            }
-        } catch(Exception e) {
-            
-        }finally {
-            CloseConnection();
-        }
+        
       
         
         return result;
