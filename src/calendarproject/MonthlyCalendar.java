@@ -19,7 +19,7 @@ import javax.swing.Timer;
 public class MonthlyCalendar extends JFrame {
 
     static JLabel lblMonth, lblYear;
-    static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton, deleteEventButton;
+    static JButton btnPrev, btnNext, emailButton, loadButton, logoutButton, saveButton, deleteEventButton, mergeButton;
     static JTable tblCalendar;
     static JComboBox cmbYear;
     static JFrame frmMain;
@@ -30,7 +30,6 @@ public class MonthlyCalendar extends JFrame {
     static int realYear, realMonth, realDay, currentYear, currentMonth, tblDay;
     static JList eventViewer;
     static DefaultListModel listModel = new DefaultListModel();
-    static JFileChooser fc;
     static SimpleDigitalClock clock1;
 
     /**
@@ -77,9 +76,10 @@ public class MonthlyCalendar extends JFrame {
         eventViewer.setBorder(BorderFactory.createLineBorder(Color.black));
         deleteEventButton = new JButton("Remove Event");
         clock1 = new SimpleDigitalClock();
+        mergeButton = new JButton("Merge Calendars");
 
         //Set border
-        pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
+        pnlCalendar.setBorder(BorderFactory.createTitledBorder(""));
 
         //Register action listeners
         btnPrev.addActionListener(new btnPrev_Action());
@@ -91,6 +91,8 @@ public class MonthlyCalendar extends JFrame {
         logoutButton.addActionListener(new logoutButton_Action());
         saveButton.addActionListener(new saveButton_Action());
         deleteEventButton.addActionListener(new deleteEventButton_Action());
+        mergeButton.addActionListener(new mergeButton_Action());
+
 
         //Add controls to pane
         pane.add(pnlCalendar);
@@ -107,6 +109,7 @@ public class MonthlyCalendar extends JFrame {
         pnlCalendar.add(eventViewer);
         pnlCalendar.add(deleteEventButton);
         pnlCalendar.add(clock1);
+        pnlCalendar.add(mergeButton);
 
         //Set bounds
         pnlCalendar.setBounds(0, 0, 320, 335);
@@ -121,8 +124,9 @@ public class MonthlyCalendar extends JFrame {
         logoutButton.setBounds(8, 370, 100, 30);
         saveButton.setBounds(118, 370, 100, 30);
         eventViewer.setBounds(340, 25, 300, 300);
-        deleteEventButton.setBounds(340, 335, 120, 30);
-        clock1.setBounds(370,365,100,50);
+        deleteEventButton.setBounds(358, 330, 120, 30);
+        clock1.setBounds(388,365,100,50);
+        mergeButton.setBounds(228,330,120,70);
 
         //Make frame visible
         frmMain.setResizable(false);
@@ -416,6 +420,18 @@ public class MonthlyCalendar extends JFrame {
             return new Dimension(200, 200);  
         }  
     }  
+  
+    private static class mergeButton_Action implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                DataHandler.merge();
+            } catch (IOException ex) {
+                Logger.getLogger(MonthlyCalendar.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }
 
 

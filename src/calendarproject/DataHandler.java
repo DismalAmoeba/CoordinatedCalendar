@@ -2,6 +2,7 @@ package calendarproject;
 
 import static calendarproject.MonthlyCalendar.fc;
 import static calendarproject.MonthlyCalendar.listModel;
+import static calendarproject.MonthlyCalendar.loadButton;
 import static calendarproject.MonthlyCalendar.saveButton;
 import java.util.Arrays;
 import java.util.*;
@@ -9,8 +10,9 @@ import java.io.*;
 import javax.swing.JFileChooser;
 
 public class DataHandler {
-    //DataHandler use = new DataHandler();
 
+    //DataHandler use = new DataHandler();
+    
     public static ArrayList<String> eventList = new ArrayList<String>();
 
     public static void addToList(int type, int userType, int userID, int year, int month, int day, String eventName, int startTime, int endTime) throws IOException {
@@ -139,11 +141,11 @@ public class DataHandler {
 
     //puts events into txt file
     public static void write() throws IOException {
-        JFileChooser fc = new JFileChooser();
-        int userSelection = fc.showSaveDialog(saveButton);
+        JFileChooser sf = new JFileChooser();
+        int userSelection = sf.showSaveDialog(saveButton);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             try {
-                FileWriter text = new FileWriter(fc.getSelectedFile() + ".txt", false);
+                FileWriter text = new FileWriter(sf.getSelectedFile() + ".txt", false);
 
                 BufferedWriter writer = new BufferedWriter(text);
                 for (String str : eventList) {
@@ -159,16 +161,55 @@ public class DataHandler {
 
     //Reads from file and puts it into the ArrayList
     public static void read() throws IOException {
-        Scanner reader = null;
-        try {
-            reader = new Scanner(new File("calendar.txt")).useDelimiter("\\n");
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex + "  file not found ");
+        JFileChooser lf = new JFileChooser();
+        int userSelection = lf.showOpenDialog(loadButton);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            Scanner reader = null;
+            try {
+                File file = new File(lf.getSelectedFile().toString());
+                reader = new Scanner(file).useDelimiter("\\n");
+            } catch (FileNotFoundException ex) {
+                System.out.println(ex + "  file not found ");
+            }
+            while (reader.hasNext()) {
+                String str = reader.nextLine();
+                eventList.add(str);
+            }
+            reader.close();
         }
-        while (reader.hasNext()) {
-            String str = reader.nextLine();
-            eventList.add(str);
+    }
+
+    //merges two files together
+    public static void merge() throws IOException {
+        JFileChooser mf1 = new JFileChooser();
+        JFileChooser mf2 = new JFileChooser();
+        int userSelection1 = mf1.showOpenDialog(loadButton);
+        int userSelection2 = mf2.showOpenDialog(loadButton);
+        if (userSelection1 == JFileChooser.APPROVE_OPTION && userSelection2 == JFileChooser.APPROVE_OPTION) {
+            File inputFile1 = new File(mf1.getSelectedFile().toString());
+            File inputFile2 = new File(mf2.getSelectedFile().toString());
+
+            String output = "";
+            try (Scanner sc1 = new Scanner(inputFile1);
+                    Scanner sc2 = new Scanner(inputFile2)) {
+
+                while (sc1.hasNext()
+                        || sc2.hasNext()) {
+                    output += sc1.next() + "\n" + sc2.next();
+                    output += "\n";
+                }
+
+                sc1.close();
+
+                sc2.close();
+
+            }
+            JFileChooser mfs = new JFileChooser();
+            int savingTo = mfs.showSaveDialog(saveButton);
+            if (savingTo == JFileChooser.APPROVE_OPTION) {
+            try (PrintWriter pw = new PrintWriter(new File(mfs.getSelectedFile()+".txt"))) {
+                pw.write(output);
+            }}
         }
-        reader.close();
     }
 }
