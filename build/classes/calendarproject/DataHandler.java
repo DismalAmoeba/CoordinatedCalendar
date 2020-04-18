@@ -2,21 +2,18 @@ package calendarproject;
 
 import static calendarproject.MonthlyCalendar.fc;
 import static calendarproject.MonthlyCalendar.listModel;
-import static calendarproject.MonthlyCalendar.loadButton;
 import static calendarproject.MonthlyCalendar.saveButton;
-import calendarproject.login.LoginForm;
 import java.util.Arrays;
 import java.util.*;
 import java.io.*;
 import javax.swing.JFileChooser;
 
 public class DataHandler {
-
     //DataHandler use = new DataHandler();
-    
+
     public static ArrayList<String> eventList = new ArrayList<String>();
 
-    public static void addToList(int type, int userType, String userID, int year, int month, int day, String eventName, int startTime, int endTime) throws IOException {
+    public static void addToList(int type, int userType, int userID, int year, int month, int day, String eventName, int startTime, int endTime) throws IOException {
         //the first constructor: type is to differenciate if an event happens once or on a certain interval
         //0 for one time
         //1 for weekly
@@ -39,7 +36,7 @@ public class DataHandler {
         //create everything used in the loops
         String typeAsString;
         String userTypeAsString;
-        String userIDTemp;
+        String userIDAsString;
         String yearAsString;
         String monthAsString;
         String dayAsString;
@@ -50,7 +47,7 @@ public class DataHandler {
         //Initalize, these should never be used
         int type = 0;
         int userType = 0;
-        String userID = "null";
+        int userID = 0;
         int year = 0;
         int month = 0;
         int day = 0;
@@ -65,7 +62,7 @@ public class DataHandler {
             for (int a = 0; a < arrOfEvt.length; a++) {
                 typeAsString = arrOfEvt[0];
                 userTypeAsString = (arrOfEvt[1]);
-                userIDTemp = (arrOfEvt[2]);
+                userIDAsString = (arrOfEvt[2]);
                 yearAsString = (arrOfEvt[3]);
                 monthAsString = (arrOfEvt[4]);
                 dayAsString = (arrOfEvt[5]);
@@ -75,7 +72,7 @@ public class DataHandler {
 
                 type = Integer.parseInt(typeAsString);
                 userType = Integer.parseInt(userTypeAsString);
-                userID = userIDTemp.trim();
+                userID = Integer.parseInt(userIDAsString);
                 year = Integer.parseInt(yearAsString);
                 month = Integer.parseInt(monthAsString);
                 day = Integer.parseInt(dayAsString);
@@ -87,10 +84,10 @@ public class DataHandler {
         }
     }
 
-    public static void newEntry(int type, int userType, String userID, int year, int month, int day, String eventName, int startTime, int endTime) {
+    public static void newEntry(int type, int userType, int userID, int year, int month, int day, String eventName, int startTime, int endTime) {
         //type, userType, and userID will go unused for now
 
-        String output = userID + " has a " + eventName + " on ";
+        String output = "(username) has a " + eventName + " on ";
         String outputMonth;
 
         switch (month) {
@@ -142,11 +139,11 @@ public class DataHandler {
 
     //puts events into txt file
     public static void write() throws IOException {
-        JFileChooser sf = new JFileChooser();
-        int userSelection = sf.showSaveDialog(saveButton);
+        JFileChooser fc = new JFileChooser();
+        int userSelection = fc.showSaveDialog(saveButton);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             try {
-                FileWriter text = new FileWriter(sf.getSelectedFile() + ".txt", false);
+                FileWriter text = new FileWriter(fc.getSelectedFile() + ".txt", false);
 
                 BufferedWriter writer = new BufferedWriter(text);
                 for (String str : eventList) {
@@ -162,55 +159,16 @@ public class DataHandler {
 
     //Reads from file and puts it into the ArrayList
     public static void read() throws IOException {
-        JFileChooser lf = new JFileChooser();
-        int userSelection = lf.showOpenDialog(loadButton);
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            Scanner reader = null;
-            try {
-                File file = new File(lf.getSelectedFile().toString());
-                reader = new Scanner(file).useDelimiter("\\n");
-            } catch (FileNotFoundException ex) {
-                System.out.println(ex + "  file not found ");
-            }
-            while (reader.hasNext()) {
-                String str = reader.nextLine();
-                eventList.add(str);
-            }
-            reader.close();
+        Scanner reader = null;
+        try {
+            reader = new Scanner(new File("calendar.txt")).useDelimiter("\\n");
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex + "  file not found ");
         }
-    }
-
-    //merges two files together
-    public static void merge() throws IOException {
-        JFileChooser mf1 = new JFileChooser();
-        JFileChooser mf2 = new JFileChooser();
-        int userSelection1 = mf1.showOpenDialog(loadButton);
-        int userSelection2 = mf2.showOpenDialog(loadButton);
-        if (userSelection1 == JFileChooser.APPROVE_OPTION && userSelection2 == JFileChooser.APPROVE_OPTION) {
-            File inputFile1 = new File(mf1.getSelectedFile().toString());
-            File inputFile2 = new File(mf2.getSelectedFile().toString());
-
-            String output = "";
-            try (Scanner sc1 = new Scanner(inputFile1);
-                    Scanner sc2 = new Scanner(inputFile2)) {
-
-                while (sc1.hasNext()
-                        || sc2.hasNext()) {
-                    output += sc1.next() + "\n" + sc2.next();
-                    output += "\n";
-                }
-
-                sc1.close();
-
-                sc2.close();
-
-            }
-            JFileChooser mfs = new JFileChooser();
-            int savingTo = mfs.showSaveDialog(saveButton);
-            if (savingTo == JFileChooser.APPROVE_OPTION) {
-            try (PrintWriter pw = new PrintWriter(new File(mfs.getSelectedFile()+".txt"))) {
-                pw.write(output);
-            }}
+        while (reader.hasNext()) {
+            String str = reader.nextLine();
+            eventList.add(str);
         }
+        reader.close();
     }
 }
