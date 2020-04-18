@@ -29,7 +29,7 @@ import javax.swing.JOptionPane;
  * @author towns
  */
 public class LoginForm extends javax.swing.JFrame {
-
+public String username = "";
     /**
      * Creates new form LoginForm
      */
@@ -38,6 +38,7 @@ public class LoginForm extends javax.swing.JFrame {
         //centers the form
         this.setLocationRelativeTo(null);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -247,6 +248,7 @@ public class LoginForm extends javax.swing.JFrame {
             if (rs.next()) 
             {
                  String userhash = rs.getString("user_hash");
+                 username = uname;
             byte[] salt = rs.getBytes("user_salt");
             String computedhash = myHash.generateHash(enteredpass, algorithm, salt);
             

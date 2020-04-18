@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import calendarproject.login.LoginForm;
 
 public class AddEvent extends JFrame{
 //Height and width used by window
@@ -34,6 +35,7 @@ JButton addEventButton = new JButton("Add Event");
 int day = MonthlyCalendar.tblDay;
 int month = MonthlyCalendar.currentMonth;
 int year = MonthlyCalendar.currentYear;
+LoginForm test = new LoginForm();
 
     public JFrame addOneTimeEvent(int day, int month, int year){
         
@@ -92,8 +94,8 @@ int year = MonthlyCalendar.currentYear;
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                DataHandler.addToList(0, 1, 0, year, month, day, eventNameField.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
-                DataHandler.newEntry(0, 1, 0, year, month, day, eventNameField.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
+                DataHandler.addToList(0, 1, test.username, year, month, day, eventNameField.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
+                DataHandler.newEntry(0, 1, test.username, year, month, day, eventNameField.getText(), Integer.parseInt(startTimeField.getText()), Integer.parseInt(endTimeField.getText()));
             } catch (IOException ex) {
                 Logger.getLogger(AddEvent.class.getName()).log(Level.SEVERE, null, ex);
             }
