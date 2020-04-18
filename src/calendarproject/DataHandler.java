@@ -3,6 +3,7 @@ package calendarproject;
 import static calendarproject.MonthlyCalendar.listModel;
 import static calendarproject.MonthlyCalendar.loadButton;
 import static calendarproject.MonthlyCalendar.saveButton;
+import calendarproject.login.LoginForm;
 import java.util.Arrays;
 import java.util.*;
 import java.io.*;
@@ -14,7 +15,7 @@ public class DataHandler {
     
     public static ArrayList<String> eventList = new ArrayList<String>();
 
-    public static void addToList(int type, int userType, int userID, int year, int month, int day, String eventName, int startTime, int endTime) throws IOException {
+    public static void addToList(int type, int userType, String userID, int year, int month, int day, String eventName, int startTime, int endTime) throws IOException {
         //the first constructor: type is to differenciate if an event happens once or on a certain interval
         //0 for one time
         //1 for weekly
@@ -37,7 +38,7 @@ public class DataHandler {
         //create everything used in the loops
         String typeAsString;
         String userTypeAsString;
-        String userIDAsString;
+        String userIDTemp;
         String yearAsString;
         String monthAsString;
         String dayAsString;
@@ -48,7 +49,7 @@ public class DataHandler {
         //Initalize, these should never be used
         int type = 0;
         int userType = 0;
-        int userID = 0;
+        String userID = "null";
         int year = 0;
         int month = 0;
         int day = 0;
@@ -63,7 +64,7 @@ public class DataHandler {
             for (int a = 0; a < arrOfEvt.length; a++) {
                 typeAsString = arrOfEvt[0];
                 userTypeAsString = (arrOfEvt[1]);
-                userIDAsString = (arrOfEvt[2]);
+                userIDTemp = (arrOfEvt[2]);
                 yearAsString = (arrOfEvt[3]);
                 monthAsString = (arrOfEvt[4]);
                 dayAsString = (arrOfEvt[5]);
@@ -73,7 +74,7 @@ public class DataHandler {
 
                 type = Integer.parseInt(typeAsString);
                 userType = Integer.parseInt(userTypeAsString);
-                userID = Integer.parseInt(userIDAsString);
+                userID = userIDTemp.trim();
                 year = Integer.parseInt(yearAsString);
                 month = Integer.parseInt(monthAsString);
                 day = Integer.parseInt(dayAsString);
@@ -85,10 +86,10 @@ public class DataHandler {
         }
     }
 
-    public static void newEntry(int type, int userType, int userID, int year, int month, int day, String eventName, int startTime, int endTime) {
+    public static void newEntry(int type, int userType, String userID, int year, int month, int day, String eventName, int startTime, int endTime) {
         //type, userType, and userID will go unused for now
 
-        String output = "(username) has a " + eventName + " on ";
+        String output = userID + " has a " + eventName + " on ";
         String outputMonth;
 
         switch (month) {
